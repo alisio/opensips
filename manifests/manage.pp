@@ -12,6 +12,7 @@ class opensips::manage inherits opensips::params {
     enable     => true,
     hasrestart => true,
     hasstatus  => true,
+    require    => Service['mariadb'],
   }
   -> if $db_mode == 'db' {
     exec { 'adicionar dominio':

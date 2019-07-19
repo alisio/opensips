@@ -15,8 +15,8 @@
 
 ## Overview
 
-This module purpose is to provision an SIP server running on the
-Centos7 OS. This module was tested with puppet 5.
+This module purpose is to provision a SIP server running on Centos 7. This
+module was tested with puppet 5.
 
 ## Module Description
 
