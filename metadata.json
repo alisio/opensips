@@ -1,0 +1,18 @@
+{
+  "name": "alisio-opensips",
+  "version": "0.1.0",
+  "author": "Antonio Alisio de Meneses Cordeiro",
+  "summary": "Puppet manifest for provisioning an Opensips server",
+  "license": "Apache-2.0",
+  "source": "https://github.com/alisio/alisio-opensips.git",
+  "project_page": "https://github.com/alisio/alisio-opensips.git",
+  "issues_url": "https://github.com/alisio/alisio-opensips.git",
+  "dependencies": [
+    {
+      "name": "puppetlabs-stdlib",
+      "version_requirement": ">= 1.0.0"
+    }
+  ],
+  "data_provider": null
+}
+
