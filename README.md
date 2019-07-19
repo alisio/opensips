@@ -54,9 +54,9 @@ Configured services:
 
 The following modules must be installed before:
 ```sh
-puppet module install puppetlabs-mysql --version 6.0.0
-puppet module install puppetlabs-stdlib --version 4.25.1
-puppet module install puppet-selinux --version 1.6.1
+puppet module install puppetlabs-stdlib --version 5.2.0
+puppet module install puppetlabs-mysql --version 10.0.0
+puppet module install puppet-selinux --version 3.0.0
 puppet module install puppet-logrotate --version 3.4.0
 puppet module install herculesteam/augeasproviders_syslog --version 2.3.0
 ```
