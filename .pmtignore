@@ -13,3 +13,14 @@ log/
 junit/
 tmp/
 vagrant/
+.gitattributes
+.gitlab-ci.yml
+.pdkignore
+.puppet-lint.rc
+.rspec
+.rubocop.yml
+.travis.yml
+.vscode/
+.yardopts
+appveyor.yml
+spec/default_facts.yml
