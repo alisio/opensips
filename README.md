@@ -53,13 +53,7 @@ Configured services:
 ### Setup Requirements
 
 The following modules must be installed before:
-```sh
-puppet module install puppetlabs-stdlib --version 5.2.0
-puppet module install puppetlabs-mysql --version 10.0.0
-puppet module install puppet-selinux --version 3.0.0
-puppet module install puppet-logrotate --version 3.4.0
-puppet module install herculesteam/augeasproviders_syslog --version 2.3.0
-```
+
 
 ### Beginning with opensips
 
@@ -76,18 +70,18 @@ for upgrading, you may wish to include an additional section here: Upgrading
 Put the classes, types, and resources for customizing, configuring, and doing
 the fancy stuff with your module here.
 
-## Reference
+```
+class {'opensips':}
+```
 
-Here, list the classes, types, providers, facts, etc contained in your module.
-This section should include all of the under-the-hood workings of your module so
-people know what the module is touching on their system but don't need to mess
-with things. (We are working on automating this section!)
+###  Variables
 
- == Variables
+ These variables are set for testing purposes. You should, nay, you must, change
+ it for production.
 
- These variables are set for testing purposes. You should, nay, you must change
- it in production.
+ The variables are located in the 'opensips::params'.
 
+```
  db_mode
    Specify opensips operation mode. DB or static files.
 
@@ -167,7 +161,14 @@ with things. (We are working on automating this section!)
 
  syslog_file
    Syslog file for opensips and rtpproxy (e.g. /var/log/opensips.log)
+```
 
+## Reference
+
+Here, list the classes, types, providers, facts, etc contained in your module.
+This section should include all of the under-the-hood workings of your module so
+people know what the module is touching on their system but don't need to mess
+with things. (We are working on automating this section!)
 
 ## Limitations
 
