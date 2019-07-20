@@ -74,9 +74,9 @@ the fancy stuff with your module here.
 class {'opensips':}
 ```
 
-###  Variables
+###  Parameters
 
- These variables are set for testing purposes. You should, nay, you must, change
+ These parameters are set for testing purposes. You should, nay, you must, change
  it for production.
 
  The variables are located in the 'opensips::params'.

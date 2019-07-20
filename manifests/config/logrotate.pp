@@ -1,6 +1,6 @@
 # == Class: opensips::config::logrotate
 #
-class opensips::config::logrotate inherits opensips::params {
+class opensips::config::logrotate inherits opensips {
   logrotate::rule { 'opensips':
     path         => $syslog_file,
     rotate       => 5,

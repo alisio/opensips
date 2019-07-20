@@ -1,6 +1,6 @@
 # == Class: opensips::proxy::opensips
 #
-class opensips::config::opensips inherits opensips::params {
+class opensips::config::opensips inherits opensips {
   # resources
   file { $opensips_cfg:
     ensure  => file,

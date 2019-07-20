@@ -1,6 +1,6 @@
 # == Class: opensips::install::repo
 #
-class opensips::install::repos inherits opensips::params {
+class opensips::install::repos inherits opensips {
   yumrepo { 'opensips':
     baseurl  => $opensips_yum_repo_baseurl,
     descr    => 'Opensips repository',

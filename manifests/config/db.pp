@@ -1,6 +1,6 @@
 # == Class: opensips::config::db
 #
-class opensips::config::db inherits opensips::params {
+class opensips::config::db inherits opensips {
   class { 'mysql::server':
     root_password => 'opensips',
   }

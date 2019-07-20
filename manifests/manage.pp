@@ -1,6 +1,6 @@
 # == Class: opensips::manage inherits opensips::params
 #
-class opensips::manage inherits opensips::params {
+class opensips::manage inherits opensips {
   service { 'rtpproxy':
     ensure     => running,
     enable     => true,

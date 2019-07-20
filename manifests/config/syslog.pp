@@ -1,6 +1,6 @@
 # == Class: opensips::config::config
 #
-class opensips::config::syslog inherits opensips::params {
+class opensips::config::syslog inherits opensips {
   syslog { 'syslog opensips':
     ensure      => present,
     facility    => "local${syslog_local}",

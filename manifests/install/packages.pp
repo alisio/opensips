@@ -1,6 +1,6 @@
 # == Class: opensips:install:packages
 #
-class opensips::install::packages inherits opensips::params {
+class opensips::install::packages inherits opensips {
   package { 'epel-release':
     ensure  => installed,
   }
