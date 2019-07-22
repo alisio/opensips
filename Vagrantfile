@@ -23,7 +23,18 @@ Vagrant.configure("2") do |config|
   # within the machine from a port on the host machine. In the example below,
   # accessing "localhost:8080" will access port 80 on the guest machine.
   # NOTE: This will enable public access to the opened port
-  # config.vm.network "forwarded_port", guest: 80, host: 8080
+  # config.vm.network "forwarded_port", guest: 5060, host: 5060, protocol: "udp"
+  # config.vm.network "forwarded_port", guest: 10000, host: 10000, protocol: "udp"
+  # config.vm.network "forwarded_port", guest: 10001, host: 10001, protocol: "udp"
+  # config.vm.network "forwarded_port", guest: 10002, host: 10002, protocol: "udp"
+  # config.vm.network "forwarded_port", guest: 10003, host: 10003, protocol: "udp"
+  # config.vm.network "forwarded_port", guest: 10004, host: 10004, protocol: "udp"
+  # config.vm.network "forwarded_port", guest: 10005, host: 10005, protocol: "udp"
+  # config.vm.network "forwarded_port", guest: 10006, host: 10006, protocol: "udp"
+  # config.vm.network "forwarded_port", guest: 10007, host: 10007, protocol: "udp"
+  # config.vm.network "forwarded_port", guest: 10008, host: 10008, protocol: "udp"
+  # config.vm.network "forwarded_port", guest: 10009, host: 10009, protocol: "udp"
+  # config.vm.network "forwarded_port", guest: 10010, host: 10010, protocol: "udp"
 
   # Create a forwarded port mapping which allows access to a specific port
   # within the machine from a port on the host machine and only allow access
@@ -37,7 +48,7 @@ Vagrant.configure("2") do |config|
   # Create a public network, which generally matched to bridged network.
   # Bridged networks make the machine appear as another physical device on
   # your network.
-  # config.vm.network "public_network"
+  config.vm.network "public_network"
 
   # Share an additional folder to the guest VM. The first argument is
   # the path on the host to the actual folder. The second argument is
