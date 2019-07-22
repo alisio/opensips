@@ -1,6 +1,8 @@
 v0.3.2 - 2019-07-22 Antonio Alisio de Meneses Cordeiro <alisio.meneses@gmail.com>
 
 - Fix opensips.cfg predefined routes.
+- Add basic opensips operation commands to the readme file
+- Change opensips_gwpadrao_hostport variable name to opensips_defaultgw_hostport
 
 v0.3.1 - 2019-07-22 Antonio Alisio de Meneses Cordeiro <alisio.meneses@gmail.com>
 
