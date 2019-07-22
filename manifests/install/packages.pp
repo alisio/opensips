@@ -4,7 +4,7 @@ class opensips::install::packages inherits opensips {
   package { 'epel-release':
     ensure  => installed,
   }
-  -> package { $opensips_packages:
+  -> package { $opensips::opensips_packages:
     ensure  => installed,
     require => Yumrepo['opensips'],
   }

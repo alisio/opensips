@@ -2,7 +2,7 @@
 #
 class opensips::config::logrotate inherits opensips {
   logrotate::rule { 'opensips':
-    path         => $syslog_file,
+    path         => $opensips::syslog_file,
     rotate       => 5,
     rotate_every => 'week',
     compress     => true,

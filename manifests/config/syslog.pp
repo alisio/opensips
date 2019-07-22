@@ -3,10 +3,10 @@
 class opensips::config::syslog inherits opensips {
   syslog { 'syslog opensips':
     ensure      => present,
-    facility    => "local${syslog_local}",
+    facility    => "local${opensips::syslog_local}",
     level       => '*',
     action_type => 'file',
-    action      => $syslog_file,
+    action      => $opensips::syslog_file,
     no_sync     => false,
   }
 }

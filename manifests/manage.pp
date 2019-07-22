@@ -14,10 +14,10 @@ class opensips::manage inherits opensips {
     hasstatus  => true,
     require    => Service['mariadb'],
   }
-  -> if $db_mode == 'db' {
+  -> if $opensips::db_mode == 'db' {
     exec { 'adicionar dominio':
-      command => "opensipsctl domain add ${proxy_ip};opensipsctl domain reload",
-      unless  =>  "opensipsctl domain show | egrep ${proxy_ip}",
+      command => "opensipsctl domain add ${opensips::proxy_ip};opensipsctl domain reload",
+      unless  =>  "opensipsctl domain show | egrep ${opensips::proxy_ip}",
       path    => '/usr/bin:/usr/sbin:/bin:/usr/local/bin',
     }
   }
