@@ -1,3 +1,7 @@
+v0.3.2 - 2019-07-22 Antonio Alisio de Meneses Cordeiro <alisio.meneses@gmail.com>
+
+- Fix opensips.cfg predefined routes.
+
 v0.3.1 - 2019-07-22 Antonio Alisio de Meneses Cordeiro <alisio.meneses@gmail.com>
 
 - fix project, source and url issues pages

@@ -388,24 +388,24 @@ route{
 		if (!do_routing("0")) {
 			send_reply("500","No PSTN Route found");
 			exit;
-		}
-    if ($rU=~"^\#[0-9]{6}$") {
-      xlog("Encaminhando chamada de $fU para o ramal serpro $rU ");
-      route(gateway);
+      route(relay);
       exit;
     }
-
-    if ($rU=~"\*43$") {
-      xlog("Enviando chamada para o servidor de midia");
-      route(mediaserver);
-      exit;
-    }
-
-
-		route(relay);
-		exit;
 	}
-
+  if ($rU=~"^\#[0-9]{6}$") {
+    xlog("Send $fU to $rU ");
+    route(gateway);
+    exit;
+  }
+  if ($rU=~"^%23[0-9]{6}$") {
+    route(gateway);
+    exit;
+  }
+  if ($rU=~"\*[0-9]+$") {
+    xlog("Send call to media server");
+    route(mediaserver);
+    exit;
+  }
 
 	# do lookup with method filtering
 	if (!lookup("location","m")) {
