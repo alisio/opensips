@@ -25,7 +25,7 @@ class opensips (
   $opensips_ctlrc                 = $opensips::params::opensips_ctlrc,
   $opensips_script_mode           = $opensips::params::opensips_script_mode,
   $opensips_yum_repo_baseurl      = $opensips::params::opensips_yum_repo_baseurl,
-  $opensips_gwpadrao_hostport     = $opensips::params::opensips_gwpadrao_hostport,
+  $opensips_defaultgw_hostport     = $opensips::params::opensips_defaultgw_hostport,
   $opensips_mediaserver_hostport  = $opensips::params::opensips_mediaserver_hostport,
   $proxy_transport                = $opensips::params::proxy_transport,
   $proxy_ip                       = $opensips::params::proxy_ip,

@@ -502,7 +502,7 @@ local_route {
 
 route[gateway]{
   xlog("Encaminhando a chamada de $fU para $rU pelo servidor TeleIP\n");
-  rewritehostport("<%= @opensips_gwpadrao_hostport %>");
+  rewritehostport("<%= @opensips_defaultgw_hostport %>");
   route(relay);
 }
 route[mediaserver]{

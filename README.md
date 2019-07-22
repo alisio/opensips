@@ -72,12 +72,23 @@ To install opensips on a server, simply include the class.
 include opensips
 ```
 
-To customize the installation change the parameters as desired, acording to the
-[Parameters](#parameters) session.
+Add SIP users with opensipctl:
+
+```
+opensipsctl add <USERNAME>@<DOMAIN> <PASSWORD>
+```
+
+Add domains with opensipctl:
+```
+opensipsctl domain add <DOMAIN>
+```
+
+To customize the installation change the parameters as desired, acording to the [Parameters](#parameters) session.
 
 ```
 class {'opensips':
   proxy_port => 5070,
+  opensips_mediaserver_hostport => '192.168.33.10:5060'
 }
 ```
 
@@ -114,7 +125,7 @@ class {'opensips':
 
 * $opensips_yum_repo_baseurl Opensips 2.4 yum repo 'http://yum.opensips.org/2.4/releases/el/7/$basearch'
 
-* $opensips_gwpadrao_hostport External gateway address:port (e.g. '127.0.0.1:5070')
+* $opensips_defaultgw_hostport External gateway address:port (e.g. '127.0.0.1:5070')
 
 * $opensips_mediaserver_hostport External mediaserver address:port (e.g '127.0.0.1:5070')
 
