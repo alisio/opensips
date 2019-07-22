@@ -4,9 +4,9 @@
   "author": "Antonio Alisio de Meneses Cordeiro",
   "summary": "Puppet manifest for provisioning an Opensips server with rtpproxy",
   "license": "Apache-2.0",
-  "source": "https://github.com/alisio/alisio-opensips.git",
-  "project_page": "https://github.com/alisio/alisio-opensips.git",
-  "issues_url": "https://github.com/alisio/alisio-opensips.git",
+  "source": "https://github.com/alisio/opensips.git",
+  "project_page": "https://github.com/alisio/opensips.git",
+  "issues_url": "https://github.com/alisio/opensips.git",
   "dependencies": [
     {
       "name": "puppetlabs-stdlib",
