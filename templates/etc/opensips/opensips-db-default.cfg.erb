@@ -195,6 +195,17 @@ loadmodule "proto_udp.so"
 #modparam("tls_mgm","ca_list", "/usr/local/etc/opensips/tls/user/user-calist.pem")
 
 
+<% if @proxy_module_ratelimit_enable == true -%>
+loadmodule "ratelimit.so"
+modparam("ratelimit", "limit_per_interval", 0)
+modparam("ratelimit", "expire_time", 3600)
+modparam("ratelimit", "hash_size", 1024)
+modparam("ratelimit", "default_algorithm", "TAILDROP")
+<% end -%>
+
+
+
+
 ####### Routing Logic ########
 
 # main request routing logic
@@ -313,7 +324,13 @@ route{
 
 	# account only INVITEs
 	if (is_method("INVITE")) {
-
+<% if @proxy_module_ratelimit_enable == true %>
+    if (!rl_check("pipe_INVITE", "<%= @proxy_module_ratelimit_limit %>", "TAILDROP")) {
+            xlog("NOTICE: $fu ultrapassou o limite de INVITES (request: $ru)\n");
+            sl_send_reply("503", "Server Unavailable");
+            exit;
+    };
+<% end %>
 		# create dialog with timeout
 		if ( !create_dialog("B") ) {
 			send_reply("500","Internal Server Error");
@@ -348,6 +365,13 @@ route{
 
 	if (is_method("REGISTER")) {
 		# authenticate the REGISTER requests
+    <% if @proxy_module_ratelimit_enable == true %>
+    if (!rl_check("pipe_REGISTER", "<%= @proxy_module_ratelimit_limit %>", "TAILDROP")) {
+            xlog("NOTICE: $fu ultrapassou o limite de REGISTER para $tu)\n");
+            sl_send_reply("503", "Server Unavailable");
+            exit;
+    };
+    <% end %>
 		if (!www_authorize("", "subscriber")) {
 			www_challenge("", "0");
 			exit;

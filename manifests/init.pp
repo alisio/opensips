@@ -45,6 +45,10 @@
 #   Opensips default signal transport. Accepted calues: udp, tcp, tls
 # @proxy_ip
 #   Address of the interface where opensips will listen to.
+# @proxy_module_ratelimit_enable
+#   Enable/disable the ratelimit module for implemeting rate limiting for SIP requests. Default value: true
+# @$proxy_module_ratelimit_limit
+#   threshold limit per second for the ratelimit module. Default value: 100
 # @proxy_port
 #   Port where opensips will listen to (e.g. 5060)
 # @proxy_eth_interface
@@ -90,6 +94,8 @@ class opensips (
   $opensips_yum_repo_baseurl      = $opensips::params::opensips_yum_repo_baseurl,
   $opensips_defaultgw_hostport    = $opensips::params::opensips_defaultgw_hostport,
   $opensips_mediaserver_hostport  = $opensips::params::opensips_mediaserver_hostport,
+  $proxy_module_ratelimit_enable  = $opensips::params::proxy_module_ratelimit_enable,
+  $proxy_module_ratelimit_limit   = $opensips::params::proxy_module_ratelimit_limit,
   $proxy_transport                = $opensips::params::proxy_transport,
   $proxy_ip                       = $opensips::params::proxy_ip,
   $proxy_port                     = $opensips::params::proxy_port,

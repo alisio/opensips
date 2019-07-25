@@ -1,3 +1,8 @@
+v0.3.4 - 2019-07-25 Antonio Alisio de Meneses Cordeiro <alisio.meneses@gmail.com>
+
+- Add call rate limit using ratelimit module and update
+- Update documentation (readme, class comments, changelog)
+
 v0.3.3 - 2019-07-22 Antonio Alisio de Meneses Cordeiro <alisio.meneses@gmail.com>
 
 - Add Opensisp HTTP Manager interface config parameter $opensips_http_mi_port

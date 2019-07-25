@@ -132,6 +132,10 @@ class {'opensips':
 
 * `$proxy_ip` Address of the interface where opensips will listen to.
 
+* `$proxy_module_ratelimit_enable` Enable/disable the ratelimit module for implemeting rate limiting for SIP requests. Default: true
+
+* `$proxy_module_ratelimit_limit` threshold limit per second for the ratelimit module. Default: 100 per second
+
 * `$proxy_port` Port where opensips will listen to (e.g. 5060)
 
 * `$proxy_eth_interface` Array of ethernet interfaces where opensips will listen to. E.g ['eth0','eth2']
