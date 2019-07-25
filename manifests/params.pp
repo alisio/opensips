@@ -116,6 +116,7 @@ class opensips::params {
   $opensips_cfg = '/etc/opensips/opensips.cfg'
   $opensips_ctlrc = '/etc/opensips/opensipsctlrc'
   $opensips_script_mode = 'default' # default, trunking, residentia
+  $opensips_http_mi_port = 8888
   $opensips_yum_repo_baseurl = 'http://yum.opensips.org/2.4/releases/el/7/$basearch'
   $opensips_defaultgw_hostport = '127.0.0.1:5070'
   $opensips_mediaserver_hostport = '127.0.0.1:5070'

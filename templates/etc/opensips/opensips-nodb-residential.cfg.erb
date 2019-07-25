@@ -97,6 +97,13 @@ modparam("mi_fifo", "fifo_mode", 0666)
 loadmodule "uri.so"
 modparam("uri", "use_uri_table", 0)
 
+#### HTTPD module
+loadmodule "httpd.so"
+modparam("httpd", "port", <%= @opensips_http_mi_port %>)
+loadmodule "mi_json.so"
+
+
+
 #### USeR LOCation module
 loadmodule "usrloc.so"
 modparam("usrloc", "nat_bflag", "NAT")
