@@ -216,9 +216,10 @@ route{
 	# and apply contact fixing
 	force_rport();
 	if (nat_uac_test("23")) {
-    xlog("Peer $fU por tras de nat.\n");
 		if (is_method("REGISTER")) {
-      xlog("Consertando REGISTRO de peer por tras de nat.");
+      if (!is_registered("location")) {
+        xlog("L_INFO","Fixing nated REGISTER from $fU\n");
+    	}
 			fix_nated_register();
 			setbflag(NAT);
 		} else {
@@ -326,7 +327,7 @@ route{
 	if (is_method("INVITE")) {
 <% if @proxy_module_ratelimit_enable == true %>
     if (!rl_check("pipe_INVITE", "<%= @proxy_module_ratelimit_limit %>", "TAILDROP")) {
-            xlog("L_NOTICE","$fu exceed the INVITE threshold to request: $ru\n");
+            xlog("L_NOTICE","$fu exceeded the INVITE threshold to request: $ru\n");
             sl_send_reply("503", "Server Unavailable");
             exit;
     };
@@ -338,7 +339,7 @@ route{
 		}
 
 		do_accounting("db");
-
+    rtpproxy_engage();
 	}
 
 
@@ -373,6 +374,7 @@ route{
     };
     <% end %>
 		if (!www_authorize("", "subscriber")) {
+      xlog("L_INFO","Registration from $tn <$fu> failed for '$si:$Rp' - Wrong password/user \n");
 			www_challenge("", "0");
 			exit;
 		}
