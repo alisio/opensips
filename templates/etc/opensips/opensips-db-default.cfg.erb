@@ -326,7 +326,7 @@ route{
 	if (is_method("INVITE")) {
 <% if @proxy_module_ratelimit_enable == true %>
     if (!rl_check("pipe_INVITE", "<%= @proxy_module_ratelimit_limit %>", "TAILDROP")) {
-            xlog("NOTICE: $fu ultrapassou o limite de INVITES (request: $ru)\n");
+            xlog("L_NOTICE","$fu exceed the INVITE threshold to request: $ru\n");
             sl_send_reply("503", "Server Unavailable");
             exit;
     };
@@ -367,7 +367,7 @@ route{
 		# authenticate the REGISTER requests
     <% if @proxy_module_ratelimit_enable == true %>
     if (!rl_check("pipe_REGISTER", "<%= @proxy_module_ratelimit_limit %>", "TAILDROP")) {
-            xlog("NOTICE: $fu ultrapassou o limite de REGISTER para $tu)\n");
+            xlog("L_NOTICE","$fu exceeded the REGISTER threshold to $tu\n");
             sl_send_reply("503", "Server Unavailable");
             exit;
     };
