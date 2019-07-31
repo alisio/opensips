@@ -88,49 +88,57 @@
 #
 #
 class opensips::params {
-  $db_mode='db'
-  $db_server_ip = 'localhost'
-  $db_server_port = 3306
-  $db_root_pw = 'opensips'
-  $db_opensips_db = 'opensips'
-  $db_opensips_user = 'opensips'
-  $db_opensips_pw = 'opensipsrw'
-  $opensips_advertised_address = ''
-  $opensips_advertised_port=5060
-  $opensips_packages = [
-                          'augeas',
-                          'bash-completion',
-                          'fail2ban',
-                          'opensips',
-                          'opensips-db_mysql',
-                          'opensips-httpd',
-                          'opensips-json',
-                          'opensips-proto_tls',
-                          'opensips-tls_mgm',
-                          'opensips-pua',
-                          'opensips-pua_usrloc',
-                          'rtpproxy',
-                          'sngrep',
-                          'tcpdump'
-                        ]
-  $opensips_cfg = '/etc/opensips/opensips.cfg'
-  $opensips_ctlrc = '/etc/opensips/opensipsctlrc'
-  $opensips_script_mode = 'default' # default, trunking, residentia
-  $opensips_http_mi_port = 8888
-  $opensips_yum_repo_baseurl = 'http://yum.opensips.org/2.4/releases/el/7/$basearch'
-  $opensips_defaultgw_hostport = '127.0.0.1:5070'
-  $opensips_mediaserver_hostport = '127.0.0.1:5070'
-  $proxy_module_ratelimit_enable = true
-  $proxy_module_ratelimit_limit = 100
-  $proxy_transport = 'udp'
-  $proxy_ip             = $facts['ipaddress']
-  $proxy_port           = 5060
-  $proxy_eth_interface  = $facts['interfaces']
-  $rtpproxy_ctrl_socket = 'udp:127.0.0.1:22222'
-  $rtpproxy_listen_ip   = '0.0.0.0'
-  $rtpproxy_min_port    = 10000
-  $rtpproxy_max_port    = 20000
-  $rtpproxy_file_limit  = 16000
-  $syslog_local         = 5
-  $syslog_file          = '/var/log/opensips.log'
+  $db_mode                      ='db'
+  $db_server_ip                 = 'localhost'
+  $db_server_port               = 3306
+  $db_root_pw                   = 'opensips'
+  $db_opensips_db               = 'opensips'
+  $db_opensips_user             = 'opensips'
+  $db_opensips_pw               = 'opensipsrw'
+  $mediaproxy_type              = 'rtpengine'
+  $opensips_advertised_address  = ''
+  $opensips_advertised_port     = 5060
+  $opensips_packages            = [
+                                      'epel-release',
+                                      'augeas',
+                                      'bash-completion',
+                                      'fail2ban',
+                                      'opensips',
+                                      'opensips-db_mysql',
+                                      'opensips-httpd',
+                                      'opensips-json',
+                                      'opensips-proto_tls',
+                                      'opensips-rtpengine',
+                                      'opensips-tls_mgm',
+                                      'opensips-pua',
+                                      'opensips-pua_usrloc',
+                                      'rtpproxy',
+                                      'sngrep',
+                                      'tcpdump'
+                                      ]
+  $opensips_cfg                   = '/etc/opensips/opensips.cfg'
+  $opensips_ctlrc                 = '/etc/opensips/opensipsctlrc'
+  $opensips_script_mode           = 'default' # default, trunking, residentia
+  $opensips_http_mi_port          = 8888
+  $opensips_yum_repo_baseurl      = 'http://yum.opensips.org/2.4/releases/el/7/$basearch'
+  $opensips_defaultgw_hostport    = '127.0.0.1:5070'
+  $opensips_mediaserver_hostport  = '127.0.0.1:5070'
+  $proxy_module_ratelimit_enable  = true
+  $proxy_module_ratelimit_limit   = 100
+  $proxy_transport                = 'udp'
+  $proxy_ip                       = $facts['ipaddress']
+  $proxy_port                     = 5060
+  $proxy_eth_interface            = $facts['interfaces']
+  $rtpengine_ctrl_socket          = 'udp:127.0.0.1:22223'
+  $rtpengine_listen_interface     = $facts['ipaddress']
+  $rtpengine_min_port             = 30000
+  $rtpengine_max_port             = 40000
+  $rtpengine_max_sessions         = 16000
+  $rtpproxy_ctrl_socket           = 'udp:127.0.0.1:22222'
+  $rtpproxy_listen_ip             = '0.0.0.0'
+  $rtpproxy_min_port              = 10000
+  $rtpproxy_max_port              = 20000
+  $rtpproxy_file_limit            = 16000
+  $syslog_local                   = 5
+  $syslog_file                    = '/var/log/opensips.log'
 }

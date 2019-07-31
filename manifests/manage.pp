@@ -1,6 +1,7 @@
 # == Class: opensips::manage inherits opensips::params
 #
 class opensips::manage inherits opensips {
+  require opensips::config
   service { 'rtpproxy':
     ensure     => running,
     enable     => true,
@@ -20,5 +21,10 @@ class opensips::manage inherits opensips {
       unless  =>  "opensipsctl domain show | egrep ${opensips::proxy_ip}",
       path    => '/usr/bin:/usr/sbin:/bin:/usr/local/bin',
     }
+  }
+  exec { 'reload_rsyslog':
+    command     => 'systemctl restart rsyslog',
+    path        => '/usr/bin:/usr/sbin:/bin:/usr/local/bin',
+    refreshonly => true,
   }
 }

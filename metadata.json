@@ -1,6 +1,6 @@
 {
   "name": "alisio-opensips",
-  "version": "0.3.4",
+  "version": "0.3.5",
   "author": "Antonio Alisio de Meneses Cordeiro",
   "summary": "Puppet manifest for provisioning an Opensips server with rtpproxy",
   "license": "Apache-2.0",
@@ -10,23 +10,11 @@
   "dependencies": [
     {
       "name": "puppetlabs-stdlib",
-      "version_requirement": ">= 4.22.0 < 6.0.0"
+      "version_requirement": ">= 4.22.0 < 7.0.0"
     },
     {
       "name": "puppetlabs-mysql",
       "version_requirement": ">= 10.0.0 < 11.0.0"
-    },
-    {
-      "name": "puppet-logrotate",
-      "version_requirement": ">= 3.4.0 < 4.0.0"
-    },
-    {
-      "name": "herculesteam-augeasproviders_syslog",
-      "version_requirement": ">= 2.3.0 < 3.0.0"
-    },
-    {
-      "name": "puppet-selinux",
-      "version_requirement": ">= 3.0.0 < 4.0.0"
     }
   ],
   "operatingsystem_support": [

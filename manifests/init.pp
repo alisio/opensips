@@ -9,6 +9,11 @@
 #   proxy_port => 5066,
 # }
 #
+# Change the default media proxy:
+# class{'opensips':
+#   mediaproxy_type => 'rtpproxy',
+# }
+#
 # Parameters
 #
 # @db_server_ip
@@ -23,6 +28,8 @@
 #   The opensips mysql user.
 # @db_opensips_pw
 #   The password for the opensips mysql user.
+# @mediaproxy_type
+#   Set which mediaproxy wil be used. Accepted values are 'rtpproxy' or 'rtpengine'. Default to rtpengine
 # @opensips_advertised_address
 #   The external IP address or hostname of a server behind NAT.
 # @opensips_advertised_port
@@ -53,7 +60,21 @@
 #   Port where opensips will listen to (e.g. 5060)
 # @proxy_eth_interface
 #   Array of ethernet interfaces where opensips will listen to. E.g ['eth0','eth2']
-# @rtpproxy_ctrl_socket
+#
+# Parameters for use only when media proxy rtpengine (the default) is set.
+# @rtpengine_ctrl_socket
+#   String containing either just a port number, or an address:port pair, separated
+#   by colon, of the control socket. Default to '127.0.0.1:22223'
+# @rtpengine_listen_interface
+#   Specifies a local network interface for listening to the RTP packets. Default to the Ip address of the first ethernet interface
+# @rtpengine_min_port
+#   Integer defining the minimum local port from which rtpengine will allocate UDP ports for media traffic relay.  Default to 30000.
+# @rtpengine_max_port
+#   Integer defining the maximum local port from which rtpengine will allocate UDP ports for media traffic relay.  Default to 40000.
+# @rtpengine_max_sessions
+#   Integer defining the limit the number of maximum concurrent sessions. Default to 16000
+#
+# Parameters for use only when media proxy rtpproxy is set.
 #   Control socket composed by protocol:address:port for controlling rtpproxy. E.g 'udp:127.0.0.1:22222'
 # @rtpproxy_listen_ip
 #   Address where rtpproxy will listen to. E.g '0.0.0.0'
@@ -73,7 +94,7 @@
 #
 # === Copyright
 #
-# Copyright 2018 Your name here, unless otherwise noted.
+# Copyright 2019 Your name here, unless otherwise noted.
 #
 
 class opensips (
@@ -84,6 +105,7 @@ class opensips (
   $db_opensips_db                 = $opensips::params::db_opensips_db,
   $db_opensips_user               = $opensips::params::db_opensips_user,
   $db_opensips_pw                 = $opensips::params::db_opensips_pw,
+  $mediaproxy_type                = $opensips::params::mediaproxy_type,
   $opensips_advertised_address    = $opensips::params::opensips_advertised_address,
   $opensips_advertised_port       = $opensips::params::opensips_advertised_port,
   $opensips_packages              = $opensips::params::opensips_packages,
@@ -100,6 +122,11 @@ class opensips (
   $proxy_ip                       = $opensips::params::proxy_ip,
   $proxy_port                     = $opensips::params::proxy_port,
   $proxy_eth_interface            = $opensips::params::proxy_eth_interface,
+  $rtpengine_ctrl_socket          = $opensips::params::rtpengine_ctrl_socket,
+  $rtpengine_listen_interface     = $opensips::params::rtpengine_listen_interface,
+  $rtpengine_min_port             = $opensips::params::rtpengine_min_port,
+  $rtpengine_max_port             = $opensips::params::rtpengine_max_port,
+  $rtpengine_max_sessions         = $opensips::params::rtpengine_max_sessions,
   $rtpproxy_ctrl_socket           = $opensips::params::rtpproxy_ctrl_socket,
   $rtpproxy_listen_ip             = $opensips::params::rtpproxy_listen_ip,
   $rtpproxy_min_port              = $opensips::params::rtpproxy_min_port,
@@ -108,9 +135,6 @@ class opensips (
   $syslog_local                   = $opensips::params::syslog_local,
   $syslog_file                    = $opensips::params::syslog_file,
 ) inherits opensips::params {
-  # contain opensips::install
-  # contain opensips::config
-  # contain opensips::manage
   class {'opensips::install':}
   ~> class {'opensips::config':}
   ~> class {'opensips::manage':}

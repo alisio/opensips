@@ -169,7 +169,10 @@ modparam("nathelper", "sipping_from", "sip:pinger@127.0.0.1") #CUSTOMIZE ME
 modparam("nathelper", "received_avp", "$avp(received_nh)")
 
 loadmodule "rtpproxy.so"
-modparam("rtpproxy", "rtpproxy_sock", "<%= @rtpproxy_ctrl_socket %>") # CUSTOMIZE ME
+modparam("rtpproxy", "rtpproxy_sock", "<%= @rtpproxy_ctrl_socket %>")
+
+loadmodule "rtpengine.so"
+modparam("rtpengine", "rtpengine_sock", "<%= @rtpengine_ctrl_socket %>")
 
 ####  DIALPLAN module
 loadmodule "dialplan.so"
@@ -339,7 +342,6 @@ route{
 		}
 
 		do_accounting("db");
-    rtpproxy_engage();
 	}
 
 

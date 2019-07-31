@@ -78,12 +78,11 @@ Vagrant.configure("2") do |config|
   config.vm.provision "shell", inline: <<-SHELL
     echo timeout=80 >> /etc/yum.conf
     sudo rpm -Uvh http://yum.puppet.com/puppet5/puppet5-release-el-7.noarch.rpm
-    sudo yum install -y augeas git puppet-agent vim-enhanced --nogpgcheck
-    /opt/puppetlabs/bin/puppet module install puppet-logrotate --version 3.4.0
-    /opt/puppetlabs/bin/puppet module install puppetlabs-stdlib --version 5.2.0
-    /opt/puppetlabs/bin/puppet module install puppetlabs-mysql --version 10.0.0
-    /opt/puppetlabs/bin/puppet module install puppet-selinux --version 3.0.0
-    /opt/puppetlabs/bin/puppet module install herculesteam/augeasproviders_syslog --version 2.3.0
+    sudo yum install -y augeas git puppet-agent pdk vim-enhanced --nogpgcheck
+    /opt/puppetlabs/bin/puppet module install alisio-opensipscp
+    /opt/puppetlabs/bin/puppet module install alisio-rtpengine
+    /opt/puppetlabs/bin/puppet module install puppetlabs-stdlib
+    /opt/puppetlabs/bin/puppet module install puppetlabs-mysql
     sudo ln -s /vagrant/ /etc/puppetlabs/code/modules/opensips
     /opt/puppetlabs/bin/puppet apply /etc/puppetlabs/code/modules/opensips/tests/init.pp
   SHELL

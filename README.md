@@ -55,15 +55,28 @@ Configured services:
 ### Setup Requirements
 
 
-The following modules are dependencies or opensips:
+The following packages are dependencies:
+* epel-release
+
+The following modules are dependencies:
 
 * puppetlabs-stdlib (>= 4.22.0 < 6.0.0)
 * puppetlabs-mysql (>= 10.0.0 < 11.0.0)
-* puppet-logrotate (>= 3.4.0 < 4.0.0)
-* herculesteam-augeasproviders_syslog (>= 2.3.0 < 3.0.0)
-* puppet-selinux (>= 3.0.0 < 4.0.0)
 
-Puppet should take care of the module dependencies if you install this using puppet module tool.
+You must install OpenSIPS Control Panel or rtpengine media proxy if you wish to use them, as these tools are not provided by this module. It is possible to use existing puppet forge modules like alisio-opensipscp or alisio-rtpengine.
+
+Sample install with Control Panel and rtpengine:
+
+```
+class {'opensips':}
+class {'opensipscp':}
+class {'rtpengine':}
+```
+
+
+
+
+
 
 ## Usage
 

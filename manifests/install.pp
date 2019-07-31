@@ -1,7 +1,7 @@
 # == Class: opensips::install
 #
-class opensips::install {
+class opensips::install inherits opensips {
   # resources
   class {'opensips::install::repos':}
-  -> class {'opensips::install::packages':}
+  -> opensips::install::packages {$opensips::opensips_packages :}
 }

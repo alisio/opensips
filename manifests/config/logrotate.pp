@@ -1,11 +1,9 @@
 # == Class: opensips::config::logrotate
 #
 class opensips::config::logrotate inherits opensips {
-  logrotate::rule { 'opensips':
-    path         => $opensips::syslog_file,
-    rotate       => 5,
-    rotate_every => 'week',
-    compress     => true,
-    size         => '1G',
+  file { '/etc/logrotate.d/opensips':
+    ensure  => file,
+    mode    => '0644',
+    content => template('opensips/etc/logrotate.d/opensips.erb'),
   }
 }
