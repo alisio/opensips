@@ -1,4 +1,4 @@
-v0.3.5 - 2019-07-31 Antonio Alisio de Meneses Cordeiro <alisio.meneses@gmail.com>
+v0.4.0 - 2019-07-31 Antonio Alisio de Meneses Cordeiro <alisio.meneses@gmail.com>
 
 - Add support for rtpengine media proxy
 - Refactor code to remove dependency on 'herculesteam-augeasproviders_syslog', 'puppet-logrotate' and 'puppet-selinux'
