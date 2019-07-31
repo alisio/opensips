@@ -6,7 +6,7 @@ Requires=network.target
 [Service]
 Type=simple
 PIDFile=/var/run/rtpproxy/rtpproxy.pid
-Environment='OPTIONS= -f -L <%= @rtpproxy_file_limit %> -l <%= @rtpproxy_listen_ip %> -m <%= @rtpproxy_min_port %> -M <%= @rtpproxy_max_port %> -s <%= @rtpproxy_ctrl_socket %> -d WARN:LOG_LOCAL<%= @syslog_local %>'
+Environment='OPTIONS= -f -L <%= @rtpproxy_file_limit %> -l <%= @rtpproxy_listen_ip %> -m <%= @rtpproxy_min_port %> -M <%= @rtpproxy_max_port %> -s <%= @mediaproxy_ctrl_socket %> -d WARN:LOG_LOCAL<%= @syslog_local %>'
 
 Restart=always
 RestartSec=5

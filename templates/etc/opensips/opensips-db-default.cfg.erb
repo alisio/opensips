@@ -168,11 +168,8 @@ modparam("nathelper", "sipping_bflag", "SIP_PING_FLAG")
 modparam("nathelper", "sipping_from", "sip:pinger@127.0.0.1") #CUSTOMIZE ME
 modparam("nathelper", "received_avp", "$avp(received_nh)")
 
-loadmodule "rtpproxy.so"
-modparam("rtpproxy", "rtpproxy_sock", "<%= @rtpproxy_ctrl_socket %>")
-
-loadmodule "rtpengine.so"
-modparam("rtpengine", "rtpengine_sock", "<%= @rtpengine_ctrl_socket %>")
+loadmodule "<%= @mediaproxy_type %>.so"
+modparam("<%= @mediaproxy_type %>", "<%= @mediaproxy_type %>_sock", "<%= @mediaproxy_ctrl_socket %>")
 
 ####  DIALPLAN module
 loadmodule "dialplan.so"
@@ -462,7 +459,7 @@ route[relay] {
 	if (is_method("INVITE")) {
 
 		if (isflagset(NAT)) {
-			rtpproxy_offer("ro");
+			<%= @mediaproxy_type %>_offer("ro");
 		}
 
 		t_on_branch("per_branch_ops");
@@ -492,7 +489,7 @@ onreply_route[handle_nat] {
 	if (nat_uac_test("1"))
 		fix_nated_contact();
 	if ( isflagset(NAT) )
-		rtpproxy_answer("ro");
+		<%= @mediaproxy_type %>_answer("ro");
 	xlog("incoming reply\n");
 }
 

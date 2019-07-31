@@ -25,7 +25,6 @@ class opensips::config::opensips inherits opensips {
     ensure  => file,
     content => template('opensips/rtpproxy.service.erb'),
     mode    => '0644',
-    notify  => Service['rtpproxy'],
   }
   ~> exec { 'reload systemctl daemon':
     command     => 'systemctl daemon-reload',

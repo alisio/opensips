@@ -1,3 +1,8 @@
+v0.4.1 - 2019-07-31 Antonio Alisio de Meneses Cordeiro <alisio.meneses@gmail.com>
+
+- Consolidate mediaproxy parameters
+
+
 v0.4.0 - 2019-07-31 Antonio Alisio de Meneses Cordeiro <alisio.meneses@gmail.com>
 
 - Add support for rtpengine media proxy

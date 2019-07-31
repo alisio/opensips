@@ -72,6 +72,14 @@ class {'opensips':}
 class {'opensipscp':}
 class {'rtpengine':}
 ```
+Sample install with Control Panel and rtpproxy:
+
+```
+class {'opensips':
+  mediaproxy_type => 'rtpproxy',
+}
+-> class {'opensipscp':}
+```
 
 
 
@@ -153,7 +161,7 @@ class {'opensips':
 
 * `$proxy_eth_interface` Array of ethernet interfaces where opensips will listen to. E.g ['eth0','eth2']
 
-* `$rtpproxy_ctrl_socket` Control socket composed by protocol:address:port for controlling rtpproxy. E.g 'udp:127.0.0.1:22222'
+* `$mediaproxy_ctrl_socket` Control socket composed by protocol:address:port for controlling rtpproxy. E.g 'udp:127.0.0.1:22222'
 
 * `$rtpproxy_listen_ip` Address where rtpproxy will listen to. E.g '0.0.0.0'
 

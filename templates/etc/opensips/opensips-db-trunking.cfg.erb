@@ -152,7 +152,8 @@ loadmodule "mi_http.so"
 
 loadmodule "proto_udp.so"
 
-
+loadmodule "<%= @mediaproxy_type %>.so"
+modparam("<%= @mediaproxy_type %>", "<%= @mediaproxy_type %>_sock", "<%= @mediaproxy_ctrl_socket %>")
 
 
 ####### Routing Logic ########

@@ -2,13 +2,17 @@
 #
 class opensips::manage inherits opensips {
   require opensips::config
-  service { 'rtpproxy':
-    ensure     => running,
-    enable     => true,
-    hasrestart => true,
-    hasstatus  => true,
+  if $opensips::mediaproxy_type == 'rtpproxy' {
+    service { 'rtpproxy':
+      ensure     => running,
+      enable     => true,
+      hasrestart => true,
+      hasstatus  => true,
+      before     => Service['opensips'],
+      subscribe  => File['/usr/lib/systemd/system/rtpproxy.service']
+    }
   }
-  ~> service { 'opensips':
+  service { 'opensips':
     ensure     => running,
     enable     => true,
     hasrestart => true,

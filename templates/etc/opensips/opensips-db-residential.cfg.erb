@@ -173,8 +173,8 @@ modparam("nathelper", "sipping_bflag", "SIP_PING_FLAG")
 modparam("nathelper", "sipping_from", "sip:pinger@127.0.0.1") #CUSTOMIZE ME
 modparam("nathelper", "received_avp", "$avp(received_nh)")
 
-loadmodule "rtpproxy.so"
-modparam("rtpproxy", "rtpproxy_sock", "udp:localhost:12221") # CUSTOMIZE ME
+loadmodule "<%= @mediaproxy_type %>.so"
+modparam("<%= @mediaproxy_type %>", "<%= @mediaproxy_type %>_sock", "<%= @mediaproxy_ctrl_socket %>")
 
 
 ####  DIALPLAN module

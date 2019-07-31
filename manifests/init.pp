@@ -29,7 +29,10 @@
 # @db_opensips_pw
 #   The password for the opensips mysql user.
 # @mediaproxy_type
-#   Set which mediaproxy wil be used. Accepted values are 'rtpproxy' or 'rtpengine'. Default to rtpengine
+#   Set which mediaproxy wil be used. Accepted values are 'rtpproxy' or 'rtpengine'. Default to rtpproxy
+# @mediaproxy_ctrl_socket
+#   String containing either just a port number, or an address:port pair, separated
+#   by colon, of the control socket. Default to 'udp:127.0.0.1:22222'
 # @opensips_advertised_address
 #   The external IP address or hostname of a server behind NAT.
 # @opensips_advertised_port
@@ -62,9 +65,6 @@
 #   Array of ethernet interfaces where opensips will listen to. E.g ['eth0','eth2']
 #
 # Parameters for use only when media proxy rtpengine (the default) is set.
-# @rtpengine_ctrl_socket
-#   String containing either just a port number, or an address:port pair, separated
-#   by colon, of the control socket. Default to '127.0.0.1:22223'
 # @rtpengine_listen_interface
 #   Specifies a local network interface for listening to the RTP packets. Default to the Ip address of the first ethernet interface
 # @rtpengine_min_port
@@ -105,6 +105,7 @@ class opensips (
   $db_opensips_db                 = $opensips::params::db_opensips_db,
   $db_opensips_user               = $opensips::params::db_opensips_user,
   $db_opensips_pw                 = $opensips::params::db_opensips_pw,
+  $mediaproxy_ctrl_socket          = $opensips::params::mediaproxy_ctrl_socket,
   $mediaproxy_type                = $opensips::params::mediaproxy_type,
   $opensips_advertised_address    = $opensips::params::opensips_advertised_address,
   $opensips_advertised_port       = $opensips::params::opensips_advertised_port,
@@ -122,12 +123,10 @@ class opensips (
   $proxy_ip                       = $opensips::params::proxy_ip,
   $proxy_port                     = $opensips::params::proxy_port,
   $proxy_eth_interface            = $opensips::params::proxy_eth_interface,
-  $rtpengine_ctrl_socket          = $opensips::params::rtpengine_ctrl_socket,
   $rtpengine_listen_interface     = $opensips::params::rtpengine_listen_interface,
   $rtpengine_min_port             = $opensips::params::rtpengine_min_port,
   $rtpengine_max_port             = $opensips::params::rtpengine_max_port,
   $rtpengine_max_sessions         = $opensips::params::rtpengine_max_sessions,
-  $rtpproxy_ctrl_socket           = $opensips::params::rtpproxy_ctrl_socket,
   $rtpproxy_listen_ip             = $opensips::params::rtpproxy_listen_ip,
   $rtpproxy_min_port              = $opensips::params::rtpproxy_min_port,
   $rtpproxy_max_port              = $opensips::params::rtpproxy_max_port,

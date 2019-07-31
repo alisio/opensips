@@ -129,6 +129,10 @@ modparam("acc", "detect_direction", 0)
 #### UDP protocol
 loadmodule "proto_udp.so"
 
+loadmodule "<%= @mediaproxy_type %>.so"
+modparam("<%= @mediaproxy_type %>", "<%= @mediaproxy_type %>_sock", "<%= @mediaproxy_ctrl_socket %>")
+
+
 ####### Routing Logic ########
 
 # main request routing logic
