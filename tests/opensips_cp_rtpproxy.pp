@@ -10,7 +10,5 @@
 # http://docs.puppetlabs.com/guides/tests_smoke.html
 #
 
-class {'opensips':
-  mediaproxy_type => 'rtpproxy',
-}
+class {'opensips':}
 -> class{'opensipscp':}

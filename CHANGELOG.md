@@ -1,3 +1,7 @@
+v0.4.2 - 2019-07-31 Antonio Alisio de Meneses Cordeiro <alisio.meneses@gmail.com>
+
+- Fix mediaproxy_type bugs
+
 v0.4.1 - 2019-07-31 Antonio Alisio de Meneses Cordeiro <alisio.meneses@gmail.com>
 
 - Consolidate mediaproxy parameters

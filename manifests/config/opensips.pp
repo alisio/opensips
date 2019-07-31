@@ -21,12 +21,16 @@ class opensips::config::opensips inherits opensips {
     content => template("opensips/etc/opensips/opensipsctlrc-${$opensips::db_mode}.erb"),
     notify  => Service['opensips']
   }
-  -> file { '/usr/lib/systemd/system/rtpproxy.service':
-    ensure  => file,
-    content => template('opensips/rtpproxy.service.erb'),
-    mode    => '0644',
+  if $opensips::mediaproxy_type == 'rtpproxy' {
+    file { '/usr/lib/systemd/system/rtpproxy.service':
+      ensure  => file,
+      content => template('opensips/rtpproxy.service.erb'),
+      mode    => '0644',
+      require => File['/etc/opensips/opensipsctlrc'],
+      notify  => Exec['reload systemctl daemon'],
+    }
   }
-  ~> exec { 'reload systemctl daemon':
+  exec { 'reload systemctl daemon':
     command     => 'systemctl daemon-reload',
     path        => '/usr/bin:/usr/sbin:/bin:/usr/local/bin',
     refreshonly => true,

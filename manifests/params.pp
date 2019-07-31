@@ -26,7 +26,6 @@ class opensips::params {
                                       'opensips-tls_mgm',
                                       'opensips-pua',
                                       'opensips-pua_usrloc',
-                                      'rtpproxy',
                                       'sngrep',
                                       'tcpdump'
                                   ]
