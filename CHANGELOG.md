@@ -1,7 +1,11 @@
+v0.4.4 - 2019-09-02 Antonio Alisio de Meneses Cordeiro <alisio.meneses@gmail.com>
+
+- Fix typo
+
 v0.4.3 - 2019-07-31 Antonio Alisio de Meneses Cordeiro <alisio.meneses@gmail.com>
 
 - Add mediaproxy offer flags parameters
-- Add apache NOTICE 
+- Add apache NOTICE
 
 v0.4.2 - 2019-07-31 Antonio Alisio de Meneses Cordeiro <alisio.meneses@gmail.com>
 
