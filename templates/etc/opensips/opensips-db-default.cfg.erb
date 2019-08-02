@@ -271,6 +271,19 @@ route{
 		exit;
 	}
 
+  <% if @proxy_module_ratelimit_enable == true %>
+      if (!rl_check("pipe_INVITE", "<%= @proxy_module_ratelimit_limit %>", "TAILDROP")) {
+              xlog("L_NOTICE","$fu exceeded the INVITE threshold to request: $ru\n");
+              sl_send_reply("503", "Server Unavailable");
+              exit;
+      };
+      if (!rl_check("pipe_REGISTER", "<%= @proxy_module_ratelimit_limit %>", "TAILDROP")) {
+              xlog("L_NOTICE","$fu exceeded the REGISTER threshold to $tu\n");
+              sl_send_reply("503", "Server Unavailable");
+              exit;
+      };
+  <% end %>
+
 	# CANCEL processing
 	if (is_method("CANCEL")) {
 		if (t_check_trans())
@@ -325,13 +338,6 @@ route{
 
 	# account only INVITEs
 	if (is_method("INVITE")) {
-<% if @proxy_module_ratelimit_enable == true %>
-    if (!rl_check("pipe_INVITE", "<%= @proxy_module_ratelimit_limit %>", "TAILDROP")) {
-            xlog("L_NOTICE","$fu exceeded the INVITE threshold to request: $ru\n");
-            sl_send_reply("503", "Server Unavailable");
-            exit;
-    };
-<% end %>
 		# create dialog with timeout
 		if ( !create_dialog("B") ) {
 			send_reply("500","Internal Server Error");
@@ -365,13 +371,6 @@ route{
 
 	if (is_method("REGISTER")) {
 		# authenticate the REGISTER requests
-    <% if @proxy_module_ratelimit_enable == true %>
-    if (!rl_check("pipe_REGISTER", "<%= @proxy_module_ratelimit_limit %>", "TAILDROP")) {
-            xlog("L_NOTICE","$fu exceeded the REGISTER threshold to $tu\n");
-            sl_send_reply("503", "Server Unavailable");
-            exit;
-    };
-    <% end %>
 		if (!www_authorize("", "subscriber")) {
       xlog("L_INFO","Registration from $tn <$fu> failed for '$si:$Rp' - Wrong password/user \n");
 			www_challenge("", "0");

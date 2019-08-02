@@ -38,7 +38,7 @@ class opensips::params {
   $opensips_defaultgw_hostport    = '127.0.0.1:5070'
   $opensips_mediaserver_hostport  = '127.0.0.1:5070'
   $proxy_module_ratelimit_enable  = true
-  $proxy_module_ratelimit_limit   = 100
+  $proxy_module_ratelimit_limit   = 10
   $proxy_transport                = 'udp'
   $proxy_ip                       = $facts['ipaddress']
   $proxy_port                     = 5060

@@ -155,7 +155,7 @@ class {'opensips':
 
 * `$proxy_module_ratelimit_enable` Enable/disable the ratelimit module for implemeting rate limiting for SIP requests. Default: true
 
-* `$proxy_module_ratelimit_limit` threshold limit per second for the ratelimit module. Default: 100 per second
+* `$proxy_module_ratelimit_limit` threshold limit per second for the ratelimit module. Default: 10 per second
 
 * `$proxy_port` Port where opensips will listen to (e.g. 5060)
 
