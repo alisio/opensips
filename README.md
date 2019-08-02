@@ -163,6 +163,10 @@ class {'opensips':
 
 * `$mediaproxy_ctrl_socket` Control socket composed by protocol:address:port for controlling rtpproxy. E.g 'udp:127.0.0.1:22222'
 
+* `$mediaproxy_offer_flags` The “flags” string is a list of space-separated items. Each item is either an individual token, or a token in “key=value” format. Default to 'transcode-PCMA transcode-PCMU codec-mask-G729'
+
+* `$mediaproxy_type`  Set which mediaproxy wil be used. Accepted values are 'rtpproxy' or 'rtpengine'. Default to rtpproxy
+
 * `$rtpproxy_listen_ip` Address where rtpproxy will listen to. E.g '0.0.0.0'
 
 * `$rtpproxy_min_port` Integer representing the lowest rtp port rtpproxy will listen to (e.g 10000)
@@ -181,6 +185,7 @@ class {'opensips':
 The most up to date reference and documentation for all configurations can be found online manual:
 
 * Opensips: https://www.opensips.org/Documentation/Manual-2-4
+* Rtpengine: https://github.com/sipwise/rtpengine
 * Rtpproxy: https://www.rtpproxy.org/doc/master/user_manual.html
 * MariaDB: https://mariadb.org/learn/
 
@@ -191,4 +196,16 @@ Centos7 OS. This module was tested with puppet 5.
 
 ## Development
 
-Please follow the licence guidelines
+Copyright 2019 Antonio Alisio de Meneses Cordeiro
+
+Licensed under the Apache License, Version 2.0 (the "License");
+you may not use this file except in compliance with the License.
+You may obtain a copy of the License at
+
+    http://www.apache.org/licenses/LICENSE-2.0
+
+Unless required by applicable law or agreed to in writing, software
+distributed under the License is distributed on an "AS IS" BASIS,
+WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+See the License for the specific language governing permissions and
+limitations under the License.

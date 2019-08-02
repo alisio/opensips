@@ -33,6 +33,10 @@
 # @mediaproxy_ctrl_socket
 #   String containing either just a port number, or an address:port pair, separated
 #   by colon, of the control socket. Default to 'udp:127.0.0.1:22222'
+# @mediaproxy_offer_flags
+#   The “flags” string is a list of space-separated items. Each item is either an
+#   individual token, or a token in “key=value” format. Default to 'transcode-PCMA
+#   transcode-PCMU codec-mask-G729'
 # @opensips_advertised_address
 #   The external IP address or hostname of a server behind NAT.
 # @opensips_advertised_port

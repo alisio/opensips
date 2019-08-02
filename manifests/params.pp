@@ -9,6 +9,7 @@ class opensips::params {
   $db_opensips_user             = 'opensips'
   $db_opensips_pw               = 'opensipsrw'
   $mediaproxy_ctrl_socket       = 'udp:127.0.0.1:22222'
+  $mediaproxy_offer_flags       = 'transcode-PCMA transcode-PCMU codec-mask-G729'
   $mediaproxy_type              = 'rtpproxy'
   $opensips_advertised_address  = ''
   $opensips_advertised_port     = 5060

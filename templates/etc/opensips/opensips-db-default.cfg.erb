@@ -459,7 +459,7 @@ route[relay] {
 	if (is_method("INVITE")) {
 
 		if (isflagset(NAT)) {
-			<%= @mediaproxy_type %>_offer("ro");
+      <%= @mediaproxy_type %>_offer("<%= @mediaproxy_offer_flags %>");
 		}
 
 		t_on_branch("per_branch_ops");
@@ -489,7 +489,7 @@ onreply_route[handle_nat] {
 	if (nat_uac_test("1"))
 		fix_nated_contact();
 	if ( isflagset(NAT) )
-		<%= @mediaproxy_type %>_answer("ro");
+		<%= @mediaproxy_type %>_answer("<%= @mediaproxy_offer_flags %>");
 	xlog("incoming reply\n");
 }
 
