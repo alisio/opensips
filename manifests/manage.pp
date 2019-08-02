@@ -11,16 +11,7 @@ class opensips::manage inherits opensips {
       before     => Service['opensips'],
       subscribe  => File['/usr/lib/systemd/system/rtpproxy.service']
     }
-  } else {
-    service { 'rtpproxy':
-      ensure     => undef,
-      enable     => true,
-      hasrestart => true,
-      hasstatus  => true,
-      before     => Service['opensips'],
-      subscribe  => File['/usr/lib/systemd/system/rtpproxy.service']
-    }
-  }
+  } 
   service { 'opensips':
     ensure     => running,
     enable     => true,
