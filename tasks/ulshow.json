@@ -1,0 +1,16 @@
+{
+  "ulshow": 1,
+  "description": "show opensips in-RAM online users",
+  "supports_noop": false,
+  "input_method": "environment",
+  "parameters": {
+    "user": {
+      "description": "The name of the specific user to be checked",
+      "type": "Optional[String[1]]"
+    },
+    "opts":{
+      "description": "Additional options (optional). Eg: --brief",
+      "type": "Optional[String[1]]"
+    }
+  }
+}
