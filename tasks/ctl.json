@@ -1,0 +1,12 @@
+{
+  "ulshow": 1,
+  "description": "Task for using opensipsctl - opensips control tool. opensipsctl is a shell script to control OpenSIPS SIP server It can be used to manage users, domains, aliases and other server options",
+  "supports_noop": false,
+  "input_method": "environment",
+  "parameters": {
+    "command":{
+      "description": "opensipsctl command. Eg: domain show",
+      "type": "String[1]"
+    }
+  }
+}
