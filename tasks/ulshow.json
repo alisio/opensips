@@ -1,6 +1,6 @@
 {
   "ulshow": 1,
-  "description": "show opensips in-RAM online users",
+  "description": "Show opensips in-RAM online users",
   "supports_noop": false,
   "input_method": "environment",
   "parameters": {

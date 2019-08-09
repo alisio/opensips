@@ -1,0 +1,12 @@
+{
+  "domainadd": 1,
+  "description": "Add domain to the database using opensipsctl",
+  "supports_noop": false,
+  "input_method": "environment",
+  "parameters": {
+    "domain": {
+      "description": "The domain to be added to the database. The domain will be reloaded after added",
+      "type": "String[1]"
+    }
+  }
+}

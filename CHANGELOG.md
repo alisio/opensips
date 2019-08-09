@@ -1,8 +1,8 @@
-v0.4.x - 2019-09-02 Antonio Alisio de Meneses Cordeiro <alisio.meneses@gmail.com>
+v0.5.0 - 2019-09-02 Antonio Alisio de Meneses Cordeiro <alisio.meneses@gmail.com>
 
 - Fix ineffective ratelimit function
 - Change default rate limit to 10
-- Add ul show Task
+- Add bolt tasks ctl, domainadd, domainrm, domainshow, restart, ulshow
 
 v0.4.4 - 2019-09-02 Antonio Alisio de Meneses Cordeiro <alisio.meneses@gmail.com>
 

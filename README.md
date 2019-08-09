@@ -82,10 +82,6 @@ class {'opensips':
 ```
 
 
-
-
-
-
 ## Usage
 
 To install opensips on a server, simply include the class.
@@ -178,6 +174,23 @@ class {'opensips':
 * `$syslog_local` Syslog level (e.g. 5) for opensips and rtpproxy log
 
 * `$syslog_file` Syslog file for opensips and rtpproxy (e.g. /var/log/opensips.log)
+
+
+### Tasks in this module
+
+The OpenSIPS module has tasks for performing trivial operations using Bolt. Please refer to to the Puppet documentation or Bolt documentation on how to execute a task.
+
+* `opensips::ctl`            Task for using opensipsctl - opensips control tool.
+
+* `opensips::domainadd`      Add domain to the database using opensipsctl
+
+* `opensips::domainrm`       Remove domain from the database using opensipsctl
+
+* `opensips::domainshow`     Show domain in memory using opensipsctl
+
+* `opensips::restart`        Restart OpenSIPS service
+
+* `opensips::ulshow`         Show opensips in-RAM online users
 
 
 ## Reference reading

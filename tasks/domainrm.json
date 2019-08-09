@@ -1,0 +1,12 @@
+{
+  "domainrm": 1,
+  "description": "Remove domain from the database using opensipsctl",
+  "supports_noop": false,
+  "input_method": "environment",
+  "parameters": {
+    "domain": {
+      "description": "The domain to be removed from the database. The domains will be reloaded.",
+      "type": "String[1]"
+    }
+  }
+}

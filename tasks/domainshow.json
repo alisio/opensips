@@ -1,0 +1,8 @@
+{
+  "domainshow": 1,
+  "description": "Show domain in memory using opensipsctl",
+  "supports_noop": false,
+  "input_method": "environment",
+  "parameters": {
+  }
+}

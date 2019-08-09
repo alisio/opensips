@@ -1,0 +1,8 @@
+{
+  "restart": 1,
+  "description": "Restart OpenSIPS service",
+  "supports_noop": false,
+  "input_method": "environment",
+  "parameters": {
+  }
+}
