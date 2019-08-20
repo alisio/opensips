@@ -43,6 +43,7 @@ class opensips::params {
   $proxy_ip                       = $facts['ipaddress']
   $proxy_port                     = 5060
   $proxy_eth_interface            = $facts['interfaces']
+  $repo_install                   = false
   $rtpengine_listen_interface     = $facts['ipaddress']
   $rtpengine_min_port             = 30000
   $rtpengine_max_port             = 40000

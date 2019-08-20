@@ -11,5 +11,8 @@
 #
 
 class {'opensips':
-  repo_install => true,
+  mediaproxy_type => 'rtpengine',
+  repo_install    => true,
 }
+-> class{'opensipscp':}
+-> class{'rtpengine':}
