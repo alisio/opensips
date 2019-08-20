@@ -127,6 +127,7 @@ class opensips (
   $proxy_ip                       = $opensips::params::proxy_ip,
   $proxy_port                     = $opensips::params::proxy_port,
   $proxy_eth_interface            = $opensips::params::proxy_eth_interface,
+  $repo_install                   = $opensips::params::repo_install,
   $rtpengine_listen_interface     = $opensips::params::rtpengine_listen_interface,
   $rtpengine_min_port             = $opensips::params::rtpengine_min_port,
   $rtpengine_max_port             = $opensips::params::rtpengine_max_port,

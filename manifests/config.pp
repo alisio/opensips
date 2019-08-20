@@ -1,7 +1,7 @@
 # == Class: opensips::config
 #
 class opensips::config {
-  require opensips::install
+  contain opensips::install
   class {'opensips::config::logrotate':}
   class {'opensips::config::db':}
   -> class {'opensips::config::opensips':}
