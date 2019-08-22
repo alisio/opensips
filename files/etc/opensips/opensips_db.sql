@@ -761,6 +761,9 @@ CREATE TABLE `acc` (
   `ms_duration` int(11) unsigned NOT NULL DEFAULT '0',
   `setuptime` int(11) unsigned NOT NULL DEFAULT '0',
   `created` datetime DEFAULT NULL,
+  `caller_id` char(64) NOT NULL,
+  `callee_id` char(64) NOT NULL,
+  `leg_type` char(10) NOT NULL,
   PRIMARY KEY (`id`),
   KEY `callid_idx` (`callid`)
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;

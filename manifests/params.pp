@@ -19,6 +19,7 @@ class opensips::params {
                                       'bash-completion',
                                       'fail2ban',
                                       'opensips',
+                                      'opensips-acc',
                                       'opensips-db_mysql',
                                       'opensips-httpd',
                                       'opensips-json',

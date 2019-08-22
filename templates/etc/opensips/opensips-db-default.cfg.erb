@@ -1,4 +1,6 @@
 #
+# $Id$
+#
 # OpenSIPS residential configuration script
 #     by OpenSIPS Solutions <team@opensips-solutions.com>
 #
@@ -21,8 +23,6 @@ log_facility=LOG_LOCAL<%= @syslog_local %>
 
 children=4
 
-/* uncomment the following lines to enable debugging */
-#debug_mode=yes
 
 /* uncomment the next line to enable the auto temporary blacklisting of
    not available destinations (default disabled) */
@@ -33,7 +33,7 @@ children=4
 #dns_try_ipv6=yes
 
 /* comment the next line to enable the auto discovery of local aliases
-   based on reverse DNS on IPs */
+   based on revers DNS on IPs */
 auto_aliases=no
 
 <%
@@ -50,24 +50,21 @@ else
         -%>listen=<%= @proxy_transport %>:<%= scope.lookupvar("ipaddress_#{interface}") %>:<%= @proxy_port %><%
     end
 end
-if @opensips_advertised_address != '' then
-    -%>
-advertised_address="<%= @opensips_advertised_address %>"
-advertised_port=<%= @opensips_advertised_port %>
-    <%
-end
 -%>
 
 ####### Modules Section ########
 
 #set module path
-mpath="/usr/lib64/opensips/modules"
+mpath="/lib64/opensips/modules/"
 
 #### SIGNALING module
 loadmodule "signaling.so"
 
 #### StateLess module
 loadmodule "sl.so"
+
+#### Text heandling
+loadmodule "textops.so"
 
 #### Transaction Module
 loadmodule "tm.so"
@@ -92,6 +89,7 @@ loadmodule "mi_fifo.so"
 modparam("mi_fifo", "fifo_name", "/tmp/opensips_fifo")
 modparam("mi_fifo", "fifo_mode", 0666)
 
+
 #### URI module
 loadmodule "uri.so"
 modparam("uri", "use_uri_table", 0)
@@ -104,7 +102,6 @@ loadmodule "httpd.so"
 modparam("httpd", "port", <%= @opensips_http_mi_port %>)
 loadmodule "mi_json.so"
 
-
 #### USeR LOCation module
 loadmodule "usrloc.so"
 modparam("usrloc", "nat_bflag", "NAT")
@@ -116,20 +113,11 @@ modparam("usrloc", "db_url",
 #### REGISTRAR module
 loadmodule "registrar.so"
 modparam("registrar", "tcp_persistent_flag", "TCP_PERSISTENT")
-modparam("registrar", "received_avp", "$avp(received_nh)")/* uncomment the next line not to allow more than 10 contacts per AOR */
+
+/* uncomment the next line not to allow more than 10 contacts per AOR */
 #modparam("registrar", "max_contacts", 10)
 
-#### ACCounting module
-loadmodule "acc.so"
-/* what special events should be accounted ? */
-modparam("acc", "early_media", 0)
-modparam("acc", "report_cancels", 0)
-/* by default we do not adjust the direct of the sequential requests.
-   if you enable this parameter, be sure the enable "append_fromtag"
-   in "rr" module */
-modparam("acc", "detect_direction", 0)
-modparam("acc", "db_url",
-	"mysql://<%= @db_opensips_user %>:<%= @db_opensips_pw %>@<%= @db_server_ip %>/<%= @db_opensips_db %>") # CUSTOMIZE ME
+
 
 #### AUTHentication modules
 loadmodule "auth.so"
@@ -140,11 +128,6 @@ modparam("auth_db|uri", "db_url",
 	"mysql://<%= @db_opensips_user %>:<%= @db_opensips_pw %>@<%= @db_server_ip %>/<%= @db_opensips_db %>") # CUSTOMIZE ME
 modparam("auth_db", "load_credentials", "")
 
-#### ALIAS module
-loadmodule "alias_db.so"
-modparam("alias_db", "db_url",
-	"mysql://<%= @db_opensips_user %>:<%= @db_opensips_pw %>@<%= @db_server_ip %>/<%= @db_opensips_db %>") # CUSTOMIZE ME
-
 #### DOMAIN module
 loadmodule "domain.so"
 modparam("domain", "db_url",
@@ -152,59 +135,93 @@ modparam("domain", "db_url",
 modparam("domain", "db_mode", 1)   # Use caching
 modparam("auth_db|usrloc|uri", "use_domain", 1)
 
-#### DIALOG module
-loadmodule "dialog.so"
-modparam("dialog", "dlg_match_mode", 1)
-modparam("dialog", "default_timeout", 21600)  # 6 hours timeout
-modparam("dialog", "db_mode", 2)
-modparam("dialog", "db_url",
+#### ALIAS module
+loadmodule "alias_db.so"
+modparam("alias_db", "db_url",
 	"mysql://<%= @db_opensips_user %>:<%= @db_opensips_pw %>@<%= @db_server_ip %>/<%= @db_opensips_db %>") # CUSTOMIZE ME
 
-####  NAT modules
-loadmodule "nathelper.so"
-modparam("nathelper", "natping_interval", 10)
-modparam("nathelper", "ping_nated_only", 1)
-modparam("nathelper", "sipping_bflag", "SIP_PING_FLAG")
-modparam("nathelper", "sipping_from", "sip:pinger@127.0.0.1") #CUSTOMIZE ME
-modparam("nathelper", "received_avp", "$avp(received_nh)")
+loadmodule "cachedb_local.so"
+
+modparam("auth","username_spec","$avp(userspec)")
+modparam("auth","password_spec","$avp(passwd)")
+modparam("auth","calculate_ha1",1)
+
+loadmodule "permissions.so"
+loadmodule "group.so"
+
+# ----- permissions params ----
+modparam("permissions", "db_url","mysql://<%= @db_opensips_user %>:<%= @db_opensips_pw %>@<%= @db_server_ip %>/<%= @db_opensips_db %>")
+modparam("group", "db_url","mysql://<%= @db_opensips_user %>:<%= @db_opensips_pw %>@<%= @db_server_ip %>/<%= @db_opensips_db %>")
+
+loadmodule "drouting.so"
+
+# ----- drouting params -----
+modparam("drouting", "use_domain", 0)
+modparam("drouting","db_url", "mysql://<%= @db_opensips_user %>:<%= @db_opensips_pw %>@<%= @db_server_ip %>/<%= @db_opensips_db %>")
+
+# ----- tm params -----
+modparam("tm", "fr_timeout", 3)
+modparam("tm", "fr_inv_timeout", 20)
+
+loadmodule "avpops.so"
+loadmodule "dialplan.so"
+
+#------ avpops params -----
+modparam("avpops", "db_url", "mysql://<%= @db_opensips_user %>:<%= @db_opensips_pw %>@<%= @db_server_ip %>/<%= @db_opensips_db %>")
+modparam("avpops", "avp_table", "usr_preferences")
+
+#------ load the dpid field to a pseudo-variable $avp(dpid) ------
+modparam("auth_db", "load_credentials", "$avp(rpid)=rpid ;$avp(dpid)= dpid; $avp(passwd)=password")
+modparam("dialplan", "db_url","mysql://<%= @db_opensips_user %>:<%= @db_opensips_pw %>@<%= @db_server_ip %>/<%= @db_opensips_db %>")
+## attribute of the matched line will be store in the $avp(dest)
 
 loadmodule "<%= @mediaproxy_type %>.so"
 modparam("<%= @mediaproxy_type %>", "<%= @mediaproxy_type %>_sock", "<%= @mediaproxy_ctrl_socket %>")
 
-####  DIALPLAN module
-loadmodule "dialplan.so"
-modparam("dialplan", "db_url",
-	"mysql://<%= @db_opensips_user %>:<%= @db_opensips_pw %>@<%= @db_server_ip %>/<%= @db_opensips_db %>") # CUSTOMIZE ME
 
-####  DYNAMMIC ROUTING module
-loadmodule "drouting.so"
-modparam("drouting", "db_url",
-	"mysql://<%= @db_opensips_user %>:<%= @db_opensips_pw %>@<%= @db_server_ip %>/<%= @db_opensips_db %>") # CUSTOMIZE ME
+loadmodule "nathelper.so"
+modparam("usrloc","nat_bflag","NAT_FLAG")
 
-####  MI_HTTP module
-loadmodule "mi_http.so"
+# Nathelper parameters
+modparam("registrar","received_avp", "$avp(42)")
+modparam("nathelper","received_avp", "$avp(42)")
+modparam("nathelper", "natping_interval", 30)
+modparam("nathelper", "ping_nated_only", 1)
+modparam("nathelper", "sipping_bflag", "SIPPING_FLAG")
+modparam("nathelper", "sipping_from", "sip:pinger@192.168.0.17")
+
+loadmodule "dialog.so"
+modparam("dialog", "profiles_with_value", "caller ; domain")
+modparam("dialog", "profiles_no_value", "progress ; active")
+modparam("dialog", "db_mode", 2)
+modparam("dialog", "db_url", "mysql://<%= @db_opensips_user %>:<%= @db_opensips_pw %>@<%= @db_server_ip %>/<%= @db_opensips_db %>")
+
+##### ACCounting module
+loadmodule "acc.so"
+/* what special events should be accounted ? */
+modparam("acc", "early_media", 0)
+modparam("acc", "report_cancels", 0)
+/* by default we do not adjust the direct of the sequential requests.
+   if you enable this parameter, be sure the enable "append_fromtag"
+   in "rr" module */
+modparam("acc", "detect_direction", 0)
+
+modparam("acc", "db_url", "mysql://<%= @db_opensips_user %>:<%= @db_opensips_pw %>@<%= @db_server_ip %>/<%= @db_opensips_db %>")
+#modparam("acc", "multi_leg_info", "caller_id=$avp(caller); callee_id=$avp(callee)")
+#modparam("acc", "db_extra", "leg_type=$avp(legtype)")
+#modparam("acc", "db_extra", "caller_id=$fU; callee_id=$rU;leg_type=$avp(legtype)")
+modparam("acc", "extra_fields", "db: $fU->caller_id; $rU->callee_id; $avp(legtype)->leg_type")
+
+
+### S1 ###
+loadmodule "siptrace.so"
+modparam("siptrace", "trace_id", "[1] uri=mysql://<%= @db_opensips_user %>:<%= @db_opensips_pw %>@<%= @db_server_ip %>/<%= @db_opensips_db %>;table=sip_trace;")
+modparam("siptrace", "trace_on", 1)
+modparam("siptrace", "trace_local_ip", "<%= @proxy_ip %>:<%= @proxy_port %>")
+### S1  ###
+
 
 loadmodule "proto_udp.so"
-#loadmodule "proto_tcp.so" loadmodule "proto_tls.so"
-#loadmodule "tls_mgm.so"
-#modparam("tls_mgm","verify_cert", "1")
-#modparam("tls_mgm","require_cert", "0")
-#modparam("tls_mgm","tls_method", "TLSv1")
-#modparam("tls_mgm","certificate", "/usr/local/etc/opensips/tls/user/user-cert.pem")
-#modparam("tls_mgm","private_key", "/usr/local/etc/opensips/tls/user/user-privkey.pem")
-#modparam("tls_mgm","ca_list", "/usr/local/etc/opensips/tls/user/user-calist.pem")
-
-
-<% if @proxy_module_ratelimit_enable == true -%>
-loadmodule "ratelimit.so"
-modparam("ratelimit", "limit_per_interval", 0)
-modparam("ratelimit", "expire_time", 3600)
-modparam("ratelimit", "hash_size", 1024)
-modparam("ratelimit", "default_algorithm", "TAILDROP")
-<% end -%>
-
-
-
 
 ####### Routing Logic ########
 
@@ -212,101 +229,100 @@ modparam("ratelimit", "default_algorithm", "TAILDROP")
 
 route{
 
-	# initial NAT handling; detect if the request comes from behind a NAT
-	# and apply contact fixing
-	force_rport();
-	if (nat_uac_test("23")) {
-		if (is_method("REGISTER")) {
-      if (!is_registered("location")) {
-        xlog("L_INFO","Fixing nated REGISTER from $fU\n");
-    	}
-			fix_nated_register();
-			setbflag(NAT);
-		} else {
-			fix_nated_contact();
-			setflag(NAT);
-		}
+	if (!mf_process_maxfwd_header("10")) {
+		sl_send_reply("483","Too Many Hops");
+		exit;
 	}
 
-	if (!mf_process_maxfwd_header("10")) {
-		send_reply("483","Too Many Hops");
-		exit;
+	## NAT Detection
+	#
+	force_rport();
+	if (nat_uac_test("18")) {
+		if ($rm=="REGISTER") {
+			fix_nated_register();
+		} else {
+			fix_nated_contact();
+		}
+         	setflag(NAT_FLAG);
 	}
 
 	if (has_totag()) {
-
-		# handle hop-by-hop ACK (no routing required)
-		if ( is_method("ACK") && t_check_trans() ) {
-			t_relay();
-			exit;
-		}
-
-		# sequential request within a dialog should
+		# sequential request withing a dialog should
 		# take the path determined by record-routing
-		if ( !loose_route() ) {
-			# we do record-routing for all our traffic, so we should not
-			# receive any sequential requests without Route hdr.
-			send_reply("404","Not here");
-			exit;
+		if (loose_route()) {
+
+
+			if (is_method("BYE")) {
+				do_accounting("log|db","failed");
+			} else if (is_method("INVITE")) {
+				# even if in most of the cases is useless, do RR for
+				# re-INVITEs alos, as some buggy clients do change route set
+				# during the dialog.
+				record_route();
+			}
+
+
+
+			# route it out to whatever destination was set by loose_route()
+			# in $du (destination URI).
+			route(relay);
+		} else {
+
+			if ( is_method("ACK") ) {
+				if ( t_check_trans() ) {
+					# non loose-route, but stateful ACK; must be an ACK after
+					# a 487 or e.g. 404 from upstream server
+					t_relay();
+					exit;
+				} else {
+					# ACK without matching transaction ->
+					# ignore and discard
+					exit;
+				}
+			}
+			sl_send_reply("404","Not here");
 		}
-
-		# validate the sequential request against dialog
-		if ( $DLG_status!=NULL && !validate_dialog() ) {
-			xlog("In-Dialog $rm from $si (callid=$ci) is not valid according to dialog\n");
-			## exit;
-		}
-
-		if (is_method("BYE")) {
-			# do accounting even if the transaction fails
-			do_accounting("db","failed");
-
-		}
-
-
-		if (check_route_param("nat=yes"))
-			setflag(NAT);
-		# route it out to whatever destination was set by loose_route()
-		# in $du (destination URI).
-		route(relay);
 		exit;
 	}
 
-  <% if @proxy_module_ratelimit_enable == true %>
-      if (!rl_check("pipe_INVITE", "<%= @proxy_module_ratelimit_limit %>", "TAILDROP")) {
-              xlog("L_NOTICE","$fu exceeded the INVITE threshold to request: $ru\n");
-              sl_send_reply("503", "Server Unavailable");
-              exit;
-      };
-      if (!rl_check("pipe_REGISTER", "<%= @proxy_module_ratelimit_limit %>", "TAILDROP")) {
-              xlog("L_NOTICE","$fu exceeded the REGISTER threshold to $tu\n");
-              sl_send_reply("503", "Server Unavailable");
-              exit;
-      };
-  <% end %>
+	$avp(caller)=$fU;
+	$avp(callee)=$rU;
+
+	#Create dialog for initial requests
+	#This will allow ACC to compute duration and setup time
+	if(is_method("INVITE")) create_dialog();
+
+	### S2 ###
+	if(is_method("INVITE")) sip_trace("1", "d", "$fU");
+	### S2 ###
 
 	# CANCEL processing
-	if (is_method("CANCEL")) {
+	if (is_method("CANCEL"))
+	{
 		if (t_check_trans())
 			t_relay();
 		exit;
 	}
 
-	# absorb retransmissions, but do not create transaction
 	t_check_trans();
 
-	if ( !(is_method("REGISTER")  || is_from_gw() ) ) {
 
-		if (is_from_local()) {
+	if ( (!is_method("REGISTER") && $si!="<%= @proxy_ip %>" ) ) {
+		if(is_from_local())
+		{
+
 			# authenticate if from local subscriber
 			# authenticate all initial non-REGISTER request that pretend to be
 			# generated by local subscriber (domain from FROM URI is local)
-			if (!proxy_authorize("", "subscriber")) {
-				proxy_challenge("", "0");
-				exit;
-			}
-			if (!db_check_from()) {
-				send_reply("403","Forbidden auth ID");
-				exit;
+			if(!check_source_address("0")){
+				if (!proxy_authorize("", "subscriber")) {
+					proxy_challenge("", "0");
+					exit;
+			   	}
+				if (!db_check_from()) {
+					sl_send_reply("403","Forbidden auth ID");
+					exit;
+				}
 			}
 
 			consume_credentials();
@@ -315,8 +331,8 @@ route{
 		} else {
 			# if caller is not local, then called number must be local
 
-			if (!is_uri_host_local()) {
-				send_reply("403","Relay Forbidden");
+			if (!is_myself("$rd")) {
+				send_reply("403","Rely forbidden");
 				exit;
 			}
 		}
@@ -326,9 +342,9 @@ route{
 	# preloaded route checking
 	if (loose_route()) {
 		xlog("L_ERR",
-			"Attempt to route with preloaded Route's [$fu/$tu/$ru/$ci]");
+		"Attempt to route with preloaded Route's [$fu/$tu/$ru/$ci]");
 		if (!is_method("ACK"))
-			send_reply("403","Preload Route denied");
+			sl_send_reply("403","Preload Route denied");
 		exit;
 	}
 
@@ -336,56 +352,72 @@ route{
 	if (!is_method("REGISTER|MESSAGE"))
 		record_route();
 
-	# account only INVITEs
-	if (is_method("INVITE")) {
-		# create dialog with timeout
-		if ( !create_dialog("B") ) {
-			send_reply("500","Internal Server Error");
-			exit;
-		}
-
-		do_accounting("db");
-	}
-
-
 	if (!is_uri_host_local()) {
 		append_hf("P-hint: outbound\r\n");
-
-		# if you have some interdomain connections via TLS
-		## CUSTOMIZE IF NEEDED
-		##if ($rd=="tls_domain1.net"
-		## || $rd=="tls_domain2.net"
-		##) {
-		##	force_send_socket(tls:127.0.0.1:5061); # CUSTOMIZE
-		##}
-
 		route(relay);
 	}
 
 	# requests for my domain
 
-	if (is_method("PUBLISH|SUBSCRIBE")) {
-		send_reply("503", "Service Unavailable");
+	if (is_method("PUBLISH|SUBSCRIBE"))
+	{
+		sl_send_reply("503", "Service Unavailable");
 		exit;
 	}
 
-	if (is_method("REGISTER")) {
+	if (is_method("REGISTER"))
+	{
+		### Caching for registration passwords ###
+		# do we have the password cached ?
+		if(cache_fetch("local","passwd_$tu",$avp(passwd))) {
+		        $avp(userspec) = $tU;
+		        xlog("SCRIPT: stored password is $avp(passwd)\n");
+		        # perform auth from variables
+		        # $avp(userspec) contains the username
+		        # $avp(passwd) contains the password
+		        if (!pv_www_authorize("")) {
+	                	# authentication failed -> do challenge
+		                www_challenge("", "0");
+		                exit;
+	        	};
+		} else {
+		        # perform DB authentication ->
+		        # password will be loaded from DB automatically
+		        if (!www_authorize("", "subscriber")) {
+				# authentication failed -> do challenge
+		                 www_challenge("", "0");
+		                 exit;
+			};
+		        # after DB authentication, the password is available
+		        # in $avp(passwd) because of the "load_credentials"
+		        # module parameter.
+		        xlog("SCRIPT: storing password <$avp(passwd)>\n");
+		        # use a 20 minutes lifetime for the password;
+		        # after that, it will erased from cache and we do
+		        # db authentication again (refresh the passwd from DB)
+		        cache_store("local","passwd_$tu","$avp(passwd)",1200);
+		}
+
 		# authenticate the REGISTER requests
-		if (!www_authorize("", "subscriber")) {
-      xlog("L_INFO","Registration from $tn <$fu> failed for '$si:$Rp' - Wrong password/user \n");
-			www_challenge("", "0");
+		#if (!www_authorize("", "subscriber"))
+		#{
+		#	www_challenge("", "0");
+		#	exit;
+		#}
+
+		if (!db_check_to())
+		{
+			sl_send_reply("403","Forbidden auth ID");
 			exit;
 		}
 
-		if (!db_check_to()) {
-			send_reply("403","Forbidden auth ID");
-			exit;
-		}
-		if ($proto == "tcp" || $proto == "tls")
-			setflag(TCP_PERSISTENT);
-		if (isflagset(NAT)) {
-			setbflag(SIP_PING_FLAG);
-		}
+		if (   0 ) setflag(TCP_PERSISTENT);
+
+		if (isflagset(NAT_FLAG)) {
+			setbflag(NAT_BFLAG);
+			setbflag(SIPPING_FLAG);
+		};
+
 		if (!save("location"))
 			sl_reply_error();
 
@@ -394,42 +426,78 @@ route{
 
 	if ($rU==NULL) {
 		# request with no Username in RURI
-		send_reply("484","Address Incomplete");
+		sl_send_reply("484","Address Incomplete");
 		exit;
 	}
 
-
-	# apply DB based aliases
-	alias_db_lookup("dbaliases");
-
-
-	# apply transformations from dialplan table
-	dp_translate("0","$rU/$rU");
-
-
-	if ($rU=~"^\+[1-9][0-9]+$") {
-
-		if (!do_routing("0")) {
-			send_reply("500","No PSTN Route found");
+	if($rU=~"^[2-9][0-9]{6}$"){
+		# usuario discou somente 7 digitos. O numero sera normalizado y6
+		if(db_is_user_in("credentials","local")){
+			prefix("1305");
+			route(4);
 			exit;
-      route(relay);
-      exit;
-    }
+		} else {
+			sl_send_reply("403","No Permission for local calls - sem permissao para chamadas locais");
+			exit;
+		}
 	}
-  if ($rU=~"^\#[0-9]{6}$") {
-    xlog("Send $fU to $rU ");
-    route(gateway);
-    exit;
-  }
-  if ($rU=~"^%23[0-9]{6}$") {
-    route(gateway);
-    exit;
-  }
-  if ($rU=~"\*[0-9]+$") {
-    xlog("Send call to media server");
-    route(mediaserver);
-    exit;
-  }
+	if($ru=~"^sip:1[0-9][0-9][0-9][2-9][0-9]{6}@"){
+		if(db_is_user_in("credentials","ld")){
+			route(4);
+			exit;
+		} else {
+			sl_send_reply("403","No Permission for long distance calls - sem permissao para chamadas DDD");
+		}
+	}
+	#Chamadas internacionais usando 011+e164
+	if ($ru=~"^sip:011[0-9]*@") {
+		if (db_is_user_in("credentials","int")) {
+			strip(3);
+			route(4);
+			exit;
+		} else {
+			sl_send_reply("403", "No permissions for international calls");
+			exit;
+		}
+	}
+
+	if(avp_db_load("$ru","$avp(callfwd)")) {
+	     $avp(caller)=$rU;
+	     $ru=$avp(callfwd);
+	     $avp(callee)=$rU;
+	     xlog("forwarded to: $avp(callfwd)");
+	}
+
+	# Dial plan processing
+	if( !is_avp_set("$avp(dpid)") ) {
+		$avp(dpid)=0;
+	}
+
+	if(!dp_translate("$avp(dpid)","$ruri.user/$ruri.user","$avp(dest)")) {
+		sl_send_reply("420", "Invalid Extension");
+		exit;
+	}
+	xlog("Dialplan: Subscriber.s dpid: $(avp(dpid))");
+	xlog("Dialplan: Destination: $avp(dest)");
+
+	if ($avp(dest)=="3") {
+		#Route to usrloc
+		route(usrloc);
+	}
+
+	if ($avp(dest)=="4") {
+		#route to drouting
+		route(pstn);
+	}
+
+	if ($avp(dest)=="5") {
+		#route to media server
+		route(media);
+	}
+	sl_send_reply("420", "Invalid Extension");
+	exit;
+
+	alias_db_lookup("dbaliases");
 
 	# do lookup with method filtering
 	if (!lookup("location","m")) {
@@ -438,44 +506,103 @@ route{
 			exit;
 		}
 
-		# redirect to a different VM system
-		$du = "sip:127.0.0.2:5060"; # CUSTOMIZE ME
-		route(relay);
-
+		t_newtran();
+		t_reply("404", "Not Found");
+		exit;
 	}
 
-	if (isbflagset(NAT)) setflag(NAT);
-
 	# when routing via usrloc, log the missed calls also
-	do_accounting("db","missed");
-
+	setflag(ACC_MISSED);
 	route(relay);
 }
 
 
+route[pstn] {
+    xlog("routed using drouting");
+    # routing to the pstn
+    if(!do_routing("0")) {
+	     sl_send_reply("500", "No routes available");
+	     exit;
+    }
+    ## for INVITEs enable some additional helper routes
+    if (is_method("INVITE")) {
+		t_on_branch("per_branch_ops");
+		t_on_reply("handle_nat");
+		t_on_failure("gateway_fail");
+    }
+
+    # for INVITEs enable some additional helper routes
+    if (subst_uri('/(sip:.*);nat=yes/\1/')){
+   		setbflag(NAT_BFLAG);
+    };
+
+    if (isflagset(NAT_FLAG)||isbflagset(NAT_BFLAG)) {
+           route(mediarelay);
+    };
+
+    #account only pstn calls
+    $avp(legtype)="pstn";
+    do_accounting("log|db","cdr|failed");
+
+    if (!t_relay()) {
+		sl_reply_error();
+    }
+    exit;
+}
+
+route[4] {
+  rewritehostport("<%= @opensips_defaultgw_hostport %>:<%= @proxy_port %>");
+  xlog("Enviando chamada para rota 1");
+  route(relay);
+}
+
 route[relay] {
+
 	# for INVITEs enable some additional helper routes
 	if (is_method("INVITE")) {
-
-		if (isflagset(NAT)) {
-      <%= @mediaproxy_type %>_offer("<%= @mediaproxy_offer_flags %>");
-		}
-
 		t_on_branch("per_branch_ops");
 		t_on_reply("handle_nat");
 		t_on_failure("missed_call");
 	}
 
-	if (isflagset(NAT)) {
-		add_rr_param(";nat=yes");
-	}
+	# for INVITEs enable some additional helper routes
+	if (subst_uri('/(sip:.*);nat=yes/\1/')){
+   		setbflag(NAT_BFLAG);
+	};
+
+	if (isflagset(NAT_FLAG)||isbflagset(NAT_BFLAG)) {
+           route(mediarelay);
+	};
 
 	if (!t_relay()) {
 		send_reply("500","Internal Error");
-	}
+	};
 	exit;
 }
 
+
+route[usrloc]{
+	if (!lookup("location")) {
+		switch ($retcode) {
+			case -1:
+			case -3:
+				t_newtran();
+				t_reply("404", "Not Found");
+				exit;
+			case -2:
+				sl_send_reply("405", "Method Not Allowed");
+				exit;
+		}
+	}
+	# when routing via usrloc, log the missed calls also
+	if(is_method("INVITE")) do_accounting("db","cdr|missed");
+	route(relay);
+}
+
+route[media] {
+	rewritehostport("192.168.11.137:5061");
+	route(relay);
+}
 
 
 
@@ -485,17 +612,54 @@ branch_route[per_branch_ops] {
 
 
 onreply_route[handle_nat] {
-	if (nat_uac_test("1"))
-		fix_nated_contact();
-	if ( isflagset(NAT) )
-		<%= @mediaproxy_type %>_answer("<%= @mediaproxy_offer_flags %>");
-	xlog("incoming reply\n");
-}
+    #-- On-replay block routing --
+    #
+		if($DLG_status!=NULL && is_method("INVITE")) {
+			if($rs=~"18[0-9]") {
+				set_dlg_profile("progress");
+			} else {
+				if(is_in_profile("progress")) unset_dlg_profile("progress");
+			}
+			if($rs=~"2[0-9][0-9]") {
+				set_dlg_profile("active");
+			} else {
+				if(is_in_profile("active")) unset_dlg_profile("active");
+			}
+		}
 
+		if(is_method("INVITE")) {
+			#Active Call Counter
+			$var(cactive)=0;
+			#In Progress Call Counter
+			$var(cprogress)=0;
+			get_profile_size("active","$var(cactive)");
+			get_profile_size("progress","$var(cprogress)");
+			xlog("L_INFO","There are $var(cactive) active calls and $var(cprogress) calls in progress");
+		}
+    if ((isflagset(NAT_FLAG) || isbflagset(NAT_BFLAG)) && $rs=~"(183)|(2[0-9][0-9])"){
+        if($avp(nat)=="normal") {
+            if(has_body("application/sdp")) rtpproxy_answer();
+        } else {
+            if(has_body("application/sdp")) rtpproxy_offer();
+        }
+        append_hf("P-hint: onreply_route|force_rtp_proxy \r\n");
+        search_append('Contact:.*sip:[^>[:cntrl:]]*', ';nat=yes');
+    }
+
+    if (isbflagset(NAT_BFLAG)) {
+        append_hf("P-hint: Onreply-route - fixcontact \r\n");
+        fix_nated_contact();
+    }
+    exit;
+}
 
 failure_route[missed_call] {
 	if (t_was_cancelled()) {
 		exit;
+	}
+
+	if (isbflagset(NAT_BFLAG) || isflagset(NAT_FLAG)) {
+		rtpproxy_unforce();
 	}
 
 	# uncomment the following lines if you want to block client
@@ -505,32 +669,69 @@ failure_route[missed_call] {
 	##	exit;
 	##}
 
-
-	# redirect the failed to a different VM system
-	if (t_check_status("486|408")) {
-		$du = "sip:127.0.0.2:5060"; # CUSTOMIZE ME
-		# do not set the missed call flag again
+	##--
+	##-- If busy send to the e-mail server, prefix the "b"
+	##-- character to indicate busy.
+	##--
+	if (t_check_status("486")) {
+        	revert_uri();
+	        prefix("b"); #This prefix is included to play the busy message
+        	xlog("L_ERR","> 486 ruri=<$ru>");
+	        route(media);
+     		route(relay);
+	        exit;
+	}
+	##--
+	##-- If timeout (408) or unavailable temporarily (480),
+	##-- prefix the uri with the "u"character to indicate
+	##-- unanswered and send to the e-mail
+	##-- sever
+	##--
+	if (t_check_status("408") || t_check_status("480")) {
+		revert_uri();
+		prefix("u");#This prefix is included to play the unanswered message
+		xlog("L_ERR","> 480 ruri=<$ru>");
+		route(media);
 		route(relay);
+		exit;
 	}
 }
 
+failure_route[gateway_fail] {
+	if (t_was_cancelled()) {
+   		exit;
+	}
 
+	if (isbflagset(NAT_BFLAG) || isflagset(NAT_FLAG)) {
+		rtpproxy_unforce();
+	}
 
-local_route {
-	if (is_method("BYE") && $DLG_dir=="UPSTREAM") {
-
-		acc_db_request("200 Dialog Timeout", "acc");
-
+	xlog("failure route 2\n");
+	if (t_check_status("(408)|(5[0-9][0-9])")){
+	if (use_next_gw()) {
+		    xlog ("next gateway $ru \n");
+		    t_on_failure("gateway_fail");
+		    t_relay();
+   		    exit;
+		}
+	       t_reply("503", "Service not available, no more gateways");
+          exit;
 	}
 }
 
-route[gateway]{
-  xlog("Encaminhando a chamada de $fU para $rU pelo servidor TeleIP\n");
-  rewritehostport("<%= @opensips_defaultgw_hostport %>");
-  route(relay);
-}
-route[mediaserver]{
-  xlog("Encaminhando a chamada de $fU para $rU para o media server\n");
-  rewritehostport("<%= @opensips_mediaserver_hostport %>");
-  route(relay);
+route[mediarelay] {
+    if (is_method("INVITE")) {
+        if (has_body("application/sdp")) {
+            if (rtpproxy_offer())
+            $avp(nat)="normal";
+        } else {
+            $avp(nat)="sdkonack";
+        }
+    }
+    if (is_method("ACK") && has_body("application/sdp"))
+        rtpproxy_answer();
+
+    if (is_method("BYE|CANCEL"))
+        rtpproxy_unforce();
+
 }
