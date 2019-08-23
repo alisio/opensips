@@ -65,6 +65,8 @@ The following modules are dependencies:
 
 You must install OpenSIPS Control Panel or rtpengine media proxy if you wish to use them, as these tools are not provided by this module. It is possible to use existing puppet forge modules like alisio-opensipscp or alisio-rtpengine.
 
+There are sample manifest inside the 'tests' folder.
+
 Sample install with Control Panel and rtpengine:
 
 ```
@@ -174,6 +176,12 @@ class {'opensips':
 * `$syslog_local` Syslog level (e.g. 5) for opensips and rtpproxy log
 
 * `$syslog_file` Syslog file for opensips and rtpproxy (e.g. /var/log/opensips.log)
+
+* `tls_certificate_path`
+ Path for the certificate used with TLS and Websocket. Default to /etc/letsencrypt/live/acme.com/cert.pem
+* `tls_private_key_path`  Path for the Private key used with TLS and Websocket. Default to /etc letsencrypt/live/acme.com/privkey.pem
+* `webrtc_ws_port`  Websocket Ws (http) port. Default to 8080
+* `webrtc_wss_port`  Websocket Wss (https) port. Detault to 4443
 
 
 ### Tasks in this module
