@@ -80,6 +80,11 @@ loadmodule "mi_fifo.so"
 modparam("mi_fifo", "fifo_name", "/tmp/opensips_fifo")
 modparam("mi_fifo", "fifo_mode", 0666)
 
+#### HTTPD module
+loadmodule "httpd.so"
+modparam("httpd", "port", <%= @opensips_http_mi_port %>)
+loadmodule "mi_json.so"
+
 #### URI module
 loadmodule "uri.so"
 modparam("uri", "use_uri_table", 0)
@@ -93,8 +98,8 @@ modparam("usrloc", "db_mode",   0)
 loadmodule "registrar.so"
 
 #### RTPengine protocol
-loadmodule "rtpengine.so"
-modparam("rtpengine", "rtpengine_sock", "udp:127.0.0.1:22222")
+loadmodule "<%= @mediaproxy_type %>.so"
+modparam("<%= @mediaproxy_type %>", "<%= @mediaproxy_type %>_sock", "<%= @mediaproxy_ctrl_socket %>")
 
 
 #### Nathelper protocol
@@ -113,8 +118,8 @@ loadmodule "proto_ws.so"
 
 # Certificate management
 loadmodule "tls_mgm.so"
-modparam("tls_mgm", "certificate","/etc/ssl/certificate.pem")
-modparam("tls_mgm", "private_key","/etc/ssl/key.pem")
+modparam("tls_mgm", "certificate","<%= @tls_certificate_path %>")
+modparam("tls_mgm", "private_key","<%= @tls_private_key_path %>")
 
 
 
