@@ -17,6 +17,8 @@ class {'opensips':
   opensips_script_mode => 'webrtc',
   tls_certificate_path => '/etc/ssl/certificate.pem',
   tls_private_key_path => '/etc/ssl/key.pem',
-
+}
+-> package { 'rtpproxy':
+  ensure => absent,
 }
 -> class{'rtpengine':}

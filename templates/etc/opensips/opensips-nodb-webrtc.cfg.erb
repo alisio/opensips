@@ -16,13 +16,6 @@ log_facility=LOG_LOCAL<%= @syslog_local %>
 
 children=4
 auto_aliases=no
-
-# Set up listeners
-listen=ws:192.168.33.10:8080
-listen=wss:192.168.33.10:4443
-listen=tls:192.168.33.10:5061
-listen=udp:192.168.33.10:5060
-
 <%
 if @proxy_eth_interface.count(',') > 0 then
     @proxy_eth_interface.split(',').each do |int|

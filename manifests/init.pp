@@ -92,6 +92,17 @@
 #   Syslog level (e.g. 5) for opensips and rtpproxy log
 # @syslog_file
 #   Syslog file for opensips and rtpproxy (e.g. /var/log/opensips.log)
+# @tls_certificate_path
+#   Path for the certificate used with TLS and Websocket. Default to /etc/letsencrypt/live/acme.com/cert.pem
+# @tls_private_key_path
+#   Path for the Private key used with TLS and Websocket. Default to /etc/letsencrypt/live/acme.com/privkey.pem
+# @webrtc_ws_port
+#   Websocket Ws (http) port. Default to 8080
+# @webrtc_wss_port
+#   Websocket Wss (https) port. Detault to 4443
+
+
+
 
 
 # Antonio Alisio de Meneses Cordeiro <alisio.meneses@gmail.com>

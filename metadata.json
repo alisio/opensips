@@ -1,6 +1,6 @@
 {
   "name": "alisio-opensips",
-  "version": "0.5.0",
+  "version": "0.6.0",
   "author": "Antonio Alisio de Meneses Cordeiro",
   "summary": "Puppet manifest for provisioning an Opensips server with rtpproxy",
   "license": "Apache-2.0",
