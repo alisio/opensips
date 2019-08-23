@@ -138,6 +138,10 @@ class opensips (
   $rtpproxy_file_limit            = $opensips::params::rtpproxy_file_limit,
   $syslog_local                   = $opensips::params::syslog_local,
   $syslog_file                    = $opensips::params::syslog_file,
+  $tls_certificate_path           = $opensips::params::tls_certificate_path,
+  $tls_private_key_path           = $opensips::params::tls_private_key_path,
+  $webrtc_ws_port                 = $opensips::params::webrtc_ws_port,
+  $webrtc_wss_port                = $opensips::params::webrtc_wss_port,
 ) inherits opensips::params {
   class {'opensips::install':}
   ~> class {'opensips::config':}

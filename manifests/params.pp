@@ -1,7 +1,7 @@
 # == Class: opensips::params
 #
 class opensips::params {
-  $db_mode                      ='db'
+  $db_mode                      = 'db'
   $db_server_ip                 = 'localhost'
   $db_server_port               = 3306
   $db_root_pw                   = 'opensips'
@@ -23,6 +23,8 @@ class opensips::params {
                                       'opensips-httpd',
                                       'opensips-json',
                                       'opensips-proto_tls',
+                                      'opensips-proto_ws',
+                                      'opensips-proto_wss',
                                       'opensips-rtpengine',
                                       'opensips-tls_mgm',
                                       'opensips-pua',
@@ -54,4 +56,8 @@ class opensips::params {
   $rtpproxy_file_limit            = 16000
   $syslog_local                   = 5
   $syslog_file                    = '/var/log/opensips.log'
+  $tls_certificate_path           = '/etc/letsencrypt/live/acme.com/cert.pem'
+  $tls_private_key_path           = '/etc/letsencrypt/live/acme.com/privkey.pem'
+  $webrtc_ws_port                 = '8080'
+  $webrtc_wss_port                = '4443'
 }
