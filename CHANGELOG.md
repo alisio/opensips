@@ -1,4 +1,8 @@
-v0.6.0 - 2019-09-23 Antonio Alisio de Meneses Cordeiro <alisio.meneses@gmail.com>
+v0.6.1 - 2019-09-10 Antonio Alisio de Meneses Cordeiro <alisio.meneses@gmail.com>
+
+- bump version 
+
+v0.6.0 - 2019-09-10 Antonio Alisio de Meneses Cordeiro <alisio.meneses@gmail.com>
 
 - Add Webrtc support with samples opensips script from opensips.org
 - Fix opensips_cp_rtpengine* and opensips_cp_rtpproxy test manifests
