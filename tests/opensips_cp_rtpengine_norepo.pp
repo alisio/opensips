@@ -14,4 +14,7 @@ class {'opensips':
   mediaproxy_type => 'rtpengine',
 }
 -> class{'opensipscp':}
+-> package { 'rtpproxy':
+  ensure => absent,
+}
 -> class{'rtpengine':}

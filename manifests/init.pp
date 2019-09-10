@@ -71,6 +71,8 @@
 # Parameters for use only when media proxy rtpengine (the default) is set.
 # @rtpengine_listen_interface
 #   Specifies a local network interface for listening to the RTP packets. Default to the Ip address of the first ethernet interface
+# @repo_install
+#   Install yum repositories. Default to true
 # @rtpengine_min_port
 #   Integer defining the minimum local port from which rtpengine will allocate UDP ports for media traffic relay.  Default to 30000.
 # @rtpengine_max_port

@@ -10,5 +10,8 @@
 # http://docs.puppetlabs.com/guides/tests_smoke.html
 #
 
-class {'opensips':}
+package { 'rtpengine':
+  ensure => absent,
+}
+-> class {'opensips':}
 -> class{'opensipscp':}

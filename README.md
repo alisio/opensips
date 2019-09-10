@@ -158,6 +158,7 @@ class {'opensips':
 * `$proxy_port` Port where opensips will listen to (e.g. 5060)
 
 * `$proxy_eth_interface` Array of ethernet interfaces where opensips will listen to. E.g ['eth0','eth2']
+* `$repo_install` Install necessary yum repositories. Default to true
 
 * `$mediaproxy_ctrl_socket` Control socket composed by protocol:address:port for controlling rtpproxy. E.g 'udp:127.0.0.1:22222'
 

@@ -15,4 +15,7 @@ class {'opensips':
   repo_install    => true,
 }
 -> class{'opensipscp':}
+-> package { 'rtpproxy':
+  ensure => absent,
+}
 -> class{'rtpengine':}
