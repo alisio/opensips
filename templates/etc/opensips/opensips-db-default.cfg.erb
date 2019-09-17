@@ -1,16 +1,6 @@
 #
-# OpenSIPS residential configuration script
-#     by OpenSIPS Solutions <team@opensips-solutions.com>
-#
-# This script was generated via "make menuconfig", from
-#   the "Residential" scenario.
-# You can enable / disable more features / functionalities by
-#   re-generating the scenario with different options.#
-#
-# Please refer to the Core CookBook at:
-#      http://www.opensips.org/Resources/DocsCookbooks
-# for a explanation of possible statements, functions and parameters.
-#
+# OpenSIPS db default
+#     by Antonio Alisio de Meneses Cordeiro <alisio.meneses@gmail.com>
 
 
 ####### Global Parameters #########
@@ -104,6 +94,10 @@ loadmodule "httpd.so"
 modparam("httpd", "port", <%= @opensips_http_mi_port %>)
 loadmodule "mi_json.so"
 
+#### AVPOPs
+loadmodule "avpops.so"
+modparam("avpops", "db_url", "mysql://<%= @db_opensips_user %>:<%= @db_opensips_pw %>@<%= @db_server_ip %>/<%= @db_opensips_db %>")
+modparam("avpops", "avp_table", "usr_preferences")
 
 #### USeR LOCation module
 loadmodule "usrloc.so"
@@ -138,7 +132,7 @@ modparam("auth_db", "calculate_ha1", yes)
 modparam("auth_db", "password_column", "password")
 modparam("auth_db|uri", "db_url",
 	"mysql://<%= @db_opensips_user %>:<%= @db_opensips_pw %>@<%= @db_server_ip %>/<%= @db_opensips_db %>") # CUSTOMIZE ME
-modparam("auth_db", "load_credentials", "")
+modparam("auth_db", "load_credentials", "rpid;dpid;privacy;first_name")
 
 #### ALIAS module
 loadmodule "alias_db.so"
@@ -514,23 +508,30 @@ failure_route[missed_call] {
 	}
 }
 
-
-
 local_route {
 	if (is_method("BYE") && $DLG_dir=="UPSTREAM") {
-
-		acc_db_request("200 Dialog Timeout", "acc");
-
+	acc_db_request("200 Dialog Timeout", "acc");
 	}
 }
 
 route[gateway]{
-  xlog("Encaminhando a chamada de $fU para $rU pelo servidor TeleIP\n");
+  xlog("Forwarding call from $fU to $rU through the gateway\n");
+  remove_hf("Remote-Party-ID");
+  if(is_avp_set("$avp(rpid)")) {
+    # se entrou aqui e pq o rpid nao e vazio e a chamada nao e anônima
+    if($avp(privacy)=="0"){
+      # chamada não é privada
+      append_hf("Remote-Party-ID: \"$avp(first_name)\" <sip:$avp(rpid)@$fd>;privacy=off;screen=no");
+    } else {
+      # chamada anônima
+      append_hf("Remote-Party-ID: \"anonymous\" <sip:$avp(rpid)@$fd>;privacy=full;screen=yes");
+    }
+  }
   rewritehostport("<%= @opensips_defaultgw_hostport %>");
   route(relay);
 }
 route[mediaserver]{
-  xlog("Encaminhando a chamada de $fU para $rU para o media server\n");
+  xlog("Forwarding call from $fU to $rU through the media server\n");
   rewritehostport("<%= @opensips_mediaserver_hostport %>");
   route(relay);
 }

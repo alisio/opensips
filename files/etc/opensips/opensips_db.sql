@@ -2317,16 +2317,19 @@ DROP TABLE IF EXISTS `subscriber`;
 CREATE TABLE `subscriber` (
   `id` int(10) unsigned NOT NULL AUTO_INCREMENT,
   `username` char(64) NOT NULL DEFAULT '',
+  `first_name` char(64) NOT NULL DEFAULT '',
   `domain` char(64) NOT NULL DEFAULT '',
   `password` char(25) NOT NULL DEFAULT '',
   `email_address` char(64) NOT NULL DEFAULT '',
   `ha1` char(64) NOT NULL DEFAULT '',
   `ha1b` char(64) NOT NULL DEFAULT '',
   `rpid` char(64) DEFAULT NULL,
+  `dpid` int(11) DEFAULT '0',
+  `privacy` int(11) DEFAULT '0',
   PRIMARY KEY (`id`),
   UNIQUE KEY `account_idx` (`username`,`domain`),
   KEY `username_idx` (`username`)
-) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB AUTO_INCREMENT=7 DEFAULT CHARSET=latin1;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --

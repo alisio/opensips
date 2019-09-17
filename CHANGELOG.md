@@ -1,6 +1,12 @@
+v0.6.2 - 2019-09-17 Antonio Alisio de Meneses Cordeiro <alisio.meneses@gmail.com>
+
+- Add avpops modules
+- Add first_name,dpid and privacy columns to the subscriber table in opensips database
+- Add Remote-Party-ID header according to the rpid information
+
 v0.6.1 - 2019-09-10 Antonio Alisio de Meneses Cordeiro <alisio.meneses@gmail.com>
 
-- bump version 
+- bump version
 
 v0.6.0 - 2019-09-10 Antonio Alisio de Meneses Cordeiro <alisio.meneses@gmail.com>
 
