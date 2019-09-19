@@ -1,3 +1,10 @@
+v0.6.3 - 2019-09-19 Antonio Alisio de Meneses Cordeiro <alisio.meneses@gmail.com>
+
+- Set VM hostname in the vagrant file
+- Fix resource ordering issue
+- Install epel-release only if repo_install is true
+- Set rpid header in the gateway route
+
 v0.6.2 - 2019-09-17 Antonio Alisio de Meneses Cordeiro <alisio.meneses@gmail.com>
 
 - Add avpops modules

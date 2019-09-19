@@ -517,16 +517,20 @@ local_route {
 route[gateway]{
   xlog("Forwarding call from $fU to $rU through the gateway\n");
   remove_hf("Remote-Party-ID");
-  if(is_avp_set("$avp(rpid)")) {
-    # se entrou aqui e pq o rpid nao e vazio e a chamada nao e anônima
-    if($avp(privacy)=="0"){
-      # chamada não é privada
-      append_hf("Remote-Party-ID: \"$avp(first_name)\" <sip:$avp(rpid)@$fd>;privacy=off;screen=no");
-    } else {
-      # chamada anônima
-      append_hf("Remote-Party-ID: \"anonymous\" <sip:$avp(rpid)@$fd>;privacy=full;screen=yes");
-    }
-  }
+  $var(rpid)=$fU;
+  $var(first_name)=$fU;
+  if($avp(privacy)=="0"){
+    # chamada não é privada
+    if ( $avp(rpid)!=NULL )
+      $var(rpid)=$avp(rpid);
+    if ( $avp(first_name)!=NULL )
+      $var(first_name)=$avp(first_name);
+    xlog("Call from $fU to $rU with RPID $var(rpid) and name $var(first_name)\n");
+    append_hf("Remote-Party-ID: \"$var(first_name)\" <sip:$var(rpid)@$fd>;privacy=off;screen=no");
+  } else {
+    # chamada anônima
+    append_hf("Remote-Party-ID: \"anonymous\" <sip:$var(rpid)@$fd>;privacy=full;screen=yes");
+}
   rewritehostport("<%= @opensips_defaultgw_hostport %>");
   route(relay);
 }
