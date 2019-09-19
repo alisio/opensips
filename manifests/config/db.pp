@@ -5,9 +5,10 @@ class opensips::config::db inherits opensips {
     root_password => 'opensips',
   }
   -> file { '/etc/opensips/opensips_db.sql':
-    ensure => file,
-    source => 'puppet:///modules/opensips/etc/opensips/opensips_db.sql',
-    mode   => '0644',
+    ensure  => file,
+    source  => 'puppet:///modules/opensips/etc/opensips/opensips_db.sql',
+    mode    => '0644',
+    require => Opensips::Install::Packages['opensips'],
   }
   -> mysql::db { $opensips::db_opensips_db:
     user           => $opensips::db_opensips_user,

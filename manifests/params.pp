@@ -14,7 +14,6 @@ class opensips::params {
   $opensips_advertised_address  = ''
   $opensips_advertised_port     = 5060
   $opensips_packages            = [
-                                      'epel-release',
                                       'augeas',
                                       'bash-completion',
                                       'fail2ban',
