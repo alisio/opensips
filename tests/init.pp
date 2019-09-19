@@ -11,5 +11,6 @@
 #
 
 class {'opensips':
-  repo_install => true,
+  repo_install    => true,
+  mediaproxy_type => 'rtpengine',
 }

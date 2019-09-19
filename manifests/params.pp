@@ -38,6 +38,7 @@ class opensips::params {
   $opensips_yum_repo_baseurl      = 'http://yum.opensips.org/2.4/releases/el/7/$basearch'
   $opensips_defaultgw_hostport    = '127.0.0.1:5070'
   $opensips_mediaserver_hostport  = '127.0.0.1:5070'
+  $overwrite_script               = true
   $proxy_module_ratelimit_enable  = true
   $proxy_module_ratelimit_limit   = 10
   $proxy_transport                = 'udp'

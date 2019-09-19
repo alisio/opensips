@@ -55,6 +55,8 @@
 #   External gateway address:port (e.g. '127.0.0.1:5070')
 # @opensips_mediaserver_hostport
 #   External mediaserver address:port (e.g '127.0.0.1:5070')
+# @overwrite_script
+#   Defines if opensips.cfg and opensipsctlrc shoul be replaced by puppet. Accepted values: true, false. Default value: true
 # @proxy_transport
 #   Opensips default signal transport. Accepted calues: udp, tcp, tls
 # @proxy_ip
@@ -122,7 +124,7 @@ class opensips (
   $db_opensips_db                 = $opensips::params::db_opensips_db,
   $db_opensips_user               = $opensips::params::db_opensips_user,
   $db_opensips_pw                 = $opensips::params::db_opensips_pw,
-  $mediaproxy_ctrl_socket          = $opensips::params::mediaproxy_ctrl_socket,
+  $mediaproxy_ctrl_socket         = $opensips::params::mediaproxy_ctrl_socket,
   $mediaproxy_type                = $opensips::params::mediaproxy_type,
   $opensips_advertised_address    = $opensips::params::opensips_advertised_address,
   $opensips_advertised_port       = $opensips::params::opensips_advertised_port,
@@ -134,6 +136,7 @@ class opensips (
   $opensips_yum_repo_baseurl      = $opensips::params::opensips_yum_repo_baseurl,
   $opensips_defaultgw_hostport    = $opensips::params::opensips_defaultgw_hostport,
   $opensips_mediaserver_hostport  = $opensips::params::opensips_mediaserver_hostport,
+  $overwrite_script               = $opensips::params::overwrite_script,
   $proxy_module_ratelimit_enable  = $opensips::params::proxy_module_ratelimit_enable,
   $proxy_module_ratelimit_limit   = $opensips::params::proxy_module_ratelimit_limit,
   $proxy_transport                = $opensips::params::proxy_transport,

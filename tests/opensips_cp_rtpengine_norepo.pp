@@ -11,10 +11,11 @@
 #
 
 class {'opensips':
-  mediaproxy_type => 'rtpengine',
+  mediaproxy_type  => 'rtpengine',
+  overwrite_script => true,
 }
 -> class{'opensipscp':}
 -> package { 'rtpproxy':
   ensure => absent,
 }
--> class{'rtpengine':}
+-> class{'rtpengine': repo_install => false }

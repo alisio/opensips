@@ -4,6 +4,9 @@ v0.6.3 - 2019-09-19 Antonio Alisio de Meneses Cordeiro <alisio.meneses@gmail.com
 - Fix resource ordering issue
 - Install epel-release only if repo_install is true
 - Set rpid header in the gateway route
+- Fix repo_install=false install rtpengine test manifest repo
+- Add parameter to define if opensips.cfg and opensipsctlrc shoul be replaced by puppet.
+- Change default mediaproxy to rtpengine in tests/init.pp manifest
 
 v0.6.2 - 2019-09-17 Antonio Alisio de Meneses Cordeiro <alisio.meneses@gmail.com>
 
