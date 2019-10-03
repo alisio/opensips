@@ -481,7 +481,7 @@ branch_route[per_branch_ops] {
 onreply_route[handle_nat] {
 	if (nat_uac_test("1"))
 		fix_nated_contact();
-	if ( isflagset(NAT) )
+  if ( isflagset(NAT) || $si =="127.0.0.1" )
 		<%= @mediaproxy_type %>_answer("<%= @mediaproxy_offer_flags %>");
 	xlog("incoming reply\n");
 }
