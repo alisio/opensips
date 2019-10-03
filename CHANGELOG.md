@@ -1,3 +1,6 @@
+v0.6.4 - 2019-09-19 Antonio Alisio de Meneses Cordeiro <alisio.meneses@gmail.com>
+- Offer mediaproxy when connecting to mediaserver on the same server
+
 v0.6.3 - 2019-09-19 Antonio Alisio de Meneses Cordeiro <alisio.meneses@gmail.com>
 
 - Set VM hostname in the vagrant file
